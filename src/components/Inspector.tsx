@@ -58,7 +58,7 @@ function RelationshipGroup({ label, refs, entries, onNavigate }: { label: string
   if (refs.length === 0) return null
   return (
     <div className="mb-2.5">
-      <span className="mb-1 block text-xs font-semibold text-foreground">{label}</span>
+      <span className="font-mono-overline mb-1 block text-muted-foreground">{label}</span>
       <div className="flex flex-col gap-1">
         {refs.map((ref, idx) => {
           const refType = resolveRefType(ref, entries)
@@ -94,7 +94,7 @@ function DynamicRelationshipsPanel({ frontmatter, entries, onNavigate }: { front
 
   return (
     <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Relationships</h4>
+      <h4 className="font-mono-overline mb-2 text-muted-foreground">Relationships</h4>
       {relationshipEntries.length === 0 ? (
         <p className="m-0 text-[13px] text-muted-foreground">No relationships</p>
       ) : (
@@ -139,8 +139,8 @@ function useBacklinks(entry: VaultEntry | null, entries: VaultEntry[], allConten
 function BacklinksPanel({ backlinks, onNavigate }: { backlinks: VaultEntry[]; onNavigate: (target: string) => void }) {
   return (
     <div>
-      <h4 className="mb-2 font-semibold text-foreground" style={{ fontSize: 12 }}>
-        Backlinks {backlinks.length > 0 && <span className="ml-1 text-muted-foreground" style={{ fontSize: 11, fontWeight: 500 }}>{backlinks.length}</span>}
+      <h4 className="font-mono-overline mb-2 text-muted-foreground">
+        Backlinks {backlinks.length > 0 && <span className="ml-1" style={{ fontWeight: 400 }}>{backlinks.length}</span>}
       </h4>
       {backlinks.length === 0 ? (
         <p className="m-0 text-[13px] text-muted-foreground">No backlinks</p>
@@ -177,7 +177,7 @@ function formatRelativeDate(timestamp: number): string {
 function GitHistoryPanel({ commits }: { commits: GitCommit[] }) {
   return (
     <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">History</h4>
+      <h4 className="font-mono-overline mb-2 text-muted-foreground">History</h4>
       {commits.length === 0 ? (
         <p className="m-0 text-[13px] text-muted-foreground">No revision history</p>
       ) : (
@@ -206,19 +206,19 @@ function EmptyInspector() {
   return (
     <>
       <div>
-        <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Properties</h4>
+        <h4 className="font-mono-overline mb-2 text-muted-foreground">Properties</h4>
         <p className="m-0 text-[13px] text-muted-foreground">No note selected</p>
       </div>
       <div>
-        <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Relationships</h4>
+        <h4 className="font-mono-overline mb-2 text-muted-foreground">Relationships</h4>
         <p className="m-0 text-[13px] text-muted-foreground">No relationships</p>
       </div>
       <div>
-        <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Backlinks</h4>
+        <h4 className="font-mono-overline mb-2 text-muted-foreground">Backlinks</h4>
         <p className="m-0 text-[13px] text-muted-foreground">No backlinks</p>
       </div>
       <div>
-        <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">History</h4>
+        <h4 className="font-mono-overline mb-2 text-muted-foreground">History</h4>
         <p className="m-0 text-[13px] text-muted-foreground">No revision history</p>
       </div>
     </>

@@ -387,16 +387,17 @@ function NoteListInner({ entries, selection, selectedNote, allContent, modifiedF
                 searchedGroups.map((group) => {
                   const isCollapsed = collapsedGroups.has(group.label)
                   return (
-                    <div key={group.label} className="border-t border-[var(--border-subtle)]">
+                    <div key={group.label}>
                       <button
-                        className="flex w-full items-center justify-between border-none bg-transparent px-4 py-2.5 pt-3 cursor-pointer"
+                        className="flex w-full items-center justify-between border-none bg-muted cursor-pointer"
+                        style={{ height: 32, padding: '0 16px' }}
                         onClick={() => toggleGroup(group.label)}
                       >
                         <span className="flex items-center gap-1.5">
-                          <span className="text-[11px] font-semibold uppercase text-muted-foreground" style={{ letterSpacing: '0.05em' }}>
+                          <span className="font-mono-label text-muted-foreground">
                             {group.label}
                           </span>
-                          <span className="text-[10px] text-muted-foreground">{group.entries.length}</span>
+                          <span className="font-mono-label text-muted-foreground" style={{ fontWeight: 400 }}>{group.entries.length}</span>
                         </span>
                         {isCollapsed
                           ? <CaretRight size={12} className="text-muted-foreground" />

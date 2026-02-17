@@ -109,7 +109,7 @@ describe('Inspector', () => {
     render(<Inspector {...defaultProps} entry={mockEntry} content={mockContent} />)
     const pill = screen.getByText('Active')
     // Status is rendered as an inline pill with CSS variable-based styles
-    expect(pill).toHaveStyle({ borderRadius: '9999px' })
+    expect(pill).toHaveStyle({ borderRadius: '16px' })
   })
 
   it('computes word count from content minus frontmatter', () => {

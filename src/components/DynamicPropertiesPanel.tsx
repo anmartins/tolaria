@@ -153,7 +153,7 @@ export function DynamicPropertiesPanel({
       return (
         <span
           className="inline-block cursor-pointer transition-opacity hover:opacity-80"
-          style={{ backgroundColor: style.bg, color: style.color, borderRadius: 9999, padding: '1px 6px', fontSize: 10, fontWeight: 500 }}
+          style={{ backgroundColor: style.bg, color: style.color, borderRadius: 16, padding: '1px 6px', fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, fontWeight: 600, letterSpacing: '1.2px', textTransform: 'uppercase' as const }}
           onClick={() => setEditingKey(key)} title="Click to edit"
         >
           {statusStr}
@@ -199,18 +199,18 @@ export function DynamicPropertiesPanel({
 
   return (
     <div>
-      <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Properties</h4>
+      <h4 className="font-mono-overline mb-2 text-muted-foreground">Properties</h4>
       <div className="flex flex-col gap-2">
         {entry.isA && (
-          <div className="flex items-center justify-between text-[13px]">
-            <span className="shrink-0 text-muted-foreground">Type</span>
-            <span className="text-right text-secondary-foreground">{entry.isA}</span>
+          <div className="flex items-center justify-between">
+            <span className="font-mono-overline shrink-0 text-muted-foreground">Type</span>
+            <span className="text-right text-[12px] text-secondary-foreground">{entry.isA}</span>
           </div>
         )}
 
         {propertyEntries.map(([key, value]) => (
-          <div key={key} className="group/prop flex items-center justify-between text-[13px]">
-            <span className="flex shrink-0 items-center gap-1 text-muted-foreground">
+          <div key={key} className="group/prop flex items-center justify-between">
+            <span className="font-mono-overline flex shrink-0 items-center gap-1 text-muted-foreground">
               {key}
               {onDeleteProperty && (
                 <button
@@ -225,13 +225,13 @@ export function DynamicPropertiesPanel({
           </div>
         ))}
 
-        <div className="flex items-center justify-between text-[13px]">
-          <span className="shrink-0 text-muted-foreground">Modified</span>
-          <span className="text-right text-secondary-foreground">{formatDate(entry.modifiedAt)}</span>
+        <div className="flex items-center justify-between">
+          <span className="font-mono-overline shrink-0 text-muted-foreground">Modified</span>
+          <span className="text-right text-[12px] text-secondary-foreground">{formatDate(entry.modifiedAt)}</span>
         </div>
-        <div className="flex items-center justify-between text-[13px]">
-          <span className="shrink-0 text-muted-foreground">Words</span>
-          <span className="text-right text-secondary-foreground">{wordCount}</span>
+        <div className="flex items-center justify-between">
+          <span className="font-mono-overline shrink-0 text-muted-foreground">Words</span>
+          <span className="text-right text-[12px] text-secondary-foreground">{wordCount}</span>
         </div>
       </div>
 
