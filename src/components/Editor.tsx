@@ -172,6 +172,7 @@ export const Editor = memo(function Editor({
   const [diffLoading, setDiffLoading] = useState(false)
 
   const activeTab = tabs.find((t) => t.entry.path === activeTabPath) ?? null
+  const isLoadingNewTab = activeTabPath !== null && !activeTab
   const showDiffToggle = activeTab && isModified?.(activeTab.entry.path)
 
   useEffect(() => {
@@ -418,19 +419,36 @@ export const Editor = memo(function Editor({
       <div className="flex flex-1 min-h-0">
         <div className="flex flex-1 flex-col min-w-0 min-h-0">
           {breadcrumbBar}
-          {diffMode ? (
+          {diffMode && (
             <div className="flex-1 overflow-auto">
               <DiffView diff={diffContent ?? ''} />
             </div>
-          ) : (
-            activeTab && (
+          )}
+          {tabs.map((tab) => (
+            <div
+              key={tab.entry.path}
+              style={{
+                display: !diffMode && tab.entry.path === activeTabPath ? 'flex' : 'none',
+                flex: 1,
+                flexDirection: 'column',
+                minHeight: 0,
+              }}
+            >
               <BlockNoteTab
-                key={activeTabPath}
-                content={activeTab.content}
+                content={tab.content}
                 entries={entries}
                 onNavigateWikilink={onNavigateWikilink}
               />
-            )
+            </div>
+          ))}
+          {isLoadingNewTab && !diffMode && (
+            <div className="flex flex-1 flex-col gap-3 p-8 animate-pulse" style={{ minHeight: 0 }}>
+              <div className="h-6 w-2/5 rounded bg-muted" />
+              <div className="h-4 w-4/5 rounded bg-muted" />
+              <div className="h-4 w-3/5 rounded bg-muted" />
+              <div className="h-4 w-4/5 rounded bg-muted" />
+              <div className="h-4 w-2/5 rounded bg-muted" />
+            </div>
           )}
         </div>
         {!inspectorCollapsed && <ResizeHandle onResize={onInspectorResize} />}

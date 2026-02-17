@@ -100,43 +100,35 @@ export function useNoteActions(
   const [activeTabPath, setActiveTabPath] = useState<string | null>(null)
   const activeTabPathRef = useRef(activeTabPath)
   activeTabPathRef.current = activeTabPath
+  const tabsRef = useRef(tabs)
+  tabsRef.current = tabs
   const handleCloseTabRef = useRef<(path: string) => void>(() => {})
 
   const handleSelectNote = useCallback(async (entry: VaultEntry) => {
-    setTabs((prev) => {
-      if (prev.some((t) => t.entry.path === entry.path)) {
-        setActiveTabPath(entry.path)
-        return prev
-      }
-      return prev
-    })
+    // If already open, just switch — instant
+    if (tabsRef.current.some((t) => t.entry.path === entry.path)) {
+      setActiveTabPath(entry.path)
+      return
+    }
 
-    let alreadyOpen = false
-    setTabs((prev) => {
-      alreadyOpen = prev.some((t) => t.entry.path === entry.path)
-      return prev
-    })
-    if (alreadyOpen) return
+    // Set active immediately for instant visual feedback
+    setActiveTabPath(entry.path)
 
+    // Load content async
     try {
-      let content: string
-      if (isTauri()) {
-        content = await invoke<string>('get_note_content', { path: entry.path })
-      } else {
-        content = await mockInvoke<string>('get_note_content', { path: entry.path })
-      }
+      const content = isTauri()
+        ? await invoke<string>('get_note_content', { path: entry.path })
+        : await mockInvoke<string>('get_note_content', { path: entry.path })
       setTabs((prev) => {
         if (prev.some((t) => t.entry.path === entry.path)) return prev
         return [...prev, { entry, content }]
       })
-      setActiveTabPath(entry.path)
     } catch (err) {
       console.warn('Failed to load note content:', err)
       setTabs((prev) => {
         if (prev.some((t) => t.entry.path === entry.path)) return prev
         return [...prev, { entry, content: '' }]
       })
-      setActiveTabPath(entry.path)
     }
   }, [])
 
