@@ -257,6 +257,11 @@ export function useNoteActions(
     return handleUpdateFrontmatter(path, key, value)
   }, [handleUpdateFrontmatter])
 
+  const closeAllTabs = useCallback(() => {
+    setTabs([])
+    setActiveTabPath(null)
+  }, [])
+
   return {
     tabs,
     activeTabPath,
@@ -270,5 +275,6 @@ export function useNoteActions(
     handleUpdateFrontmatter,
     handleDeleteProperty,
     handleAddProperty,
+    closeAllTabs,
   }
 }

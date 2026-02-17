@@ -3,20 +3,21 @@ import { invoke } from '@tauri-apps/api/core'
 import { isTauri, mockInvoke } from '../mock-tauri'
 import type { VaultEntry, GitCommit, ModifiedFile } from '../types'
 
-const TEST_VAULT_PATH = '~/Laputa'
-
-export function useVaultLoader() {
+export function useVaultLoader(vaultPath: string) {
   const [entries, setEntries] = useState<VaultEntry[]>([])
   const [allContent, setAllContent] = useState<Record<string, string>>({})
   const [modifiedFiles, setModifiedFiles] = useState<ModifiedFile[]>([])
 
   useEffect(() => {
+    setEntries([])
+    setAllContent({})
+    setModifiedFiles([])
+
     const loadVault = async () => {
       try {
         let result: VaultEntry[]
         if (isTauri()) {
-          const path = TEST_VAULT_PATH.replace('~', '/Users/luca')
-          result = await invoke<VaultEntry[]>('list_vault', { path })
+          result = await invoke<VaultEntry[]>('list_vault', { path: vaultPath })
         } else {
           console.info('[mock] Using mock Tauri data for browser testing')
           result = await mockInvoke<VaultEntry[]>('list_vault', {})
@@ -36,13 +37,12 @@ export function useVaultLoader() {
       }
     }
     loadVault()
-  }, [])
+  }, [vaultPath])
 
   const loadModifiedFiles = useCallback(async () => {
     try {
       let files: ModifiedFile[]
       if (isTauri()) {
-        const vaultPath = TEST_VAULT_PATH.replace('~', '/Users/luca')
         files = await invoke<ModifiedFile[]>('get_modified_files', { vaultPath })
       } else {
         files = await mockInvoke<ModifiedFile[]>('get_modified_files', {})
@@ -52,7 +52,7 @@ export function useVaultLoader() {
       console.warn('Failed to load modified files:', err)
       setModifiedFiles([])
     }
-  }, [])
+  }, [vaultPath])
 
   useEffect(() => {
     loadModifiedFiles()
@@ -70,7 +70,6 @@ export function useVaultLoader() {
   const loadGitHistory = useCallback(async (path: string): Promise<GitCommit[]> => {
     try {
       if (isTauri()) {
-        const vaultPath = TEST_VAULT_PATH.replace('~', '/Users/luca')
         return await invoke<GitCommit[]>('get_file_history', { vaultPath, path })
       } else {
         return await mockInvoke<GitCommit[]>('get_file_history', { path })
@@ -79,23 +78,21 @@ export function useVaultLoader() {
       console.warn('Failed to load git history:', err)
       return []
     }
-  }, [])
+  }, [vaultPath])
 
   const loadDiff = useCallback(async (path: string): Promise<string> => {
     if (isTauri()) {
-      const vaultPath = TEST_VAULT_PATH.replace('~', '/Users/luca')
       return invoke<string>('get_file_diff', { vaultPath, path })
     } else {
       return mockInvoke<string>('get_file_diff', { path })
     }
-  }, [])
+  }, [vaultPath])
 
   const isFileModified = useCallback((path: string): boolean => {
     return modifiedFiles.some((f) => f.path === path)
   }, [modifiedFiles])
 
   const commitAndPush = useCallback(async (message: string): Promise<string> => {
-    const vaultPath = TEST_VAULT_PATH.replace('~', '/Users/luca')
     if (isTauri()) {
       await invoke<string>('git_commit', { vaultPath, message })
       try {
@@ -109,7 +106,7 @@ export function useVaultLoader() {
       await mockInvoke<string>('git_push', {})
       return 'Committed and pushed'
     }
-  }, [])
+  }, [vaultPath])
 
   return {
     entries,

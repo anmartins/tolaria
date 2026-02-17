@@ -22,6 +22,11 @@ declare global {
 
 const DEFAULT_SELECTION: SidebarSelection = { kind: 'filter', filter: 'all' }
 
+const VAULTS = [
+  { label: 'Laputa', path: '/Users/luca/Laputa' },
+  { label: 'Demo', path: '/Users/luca/Workspace/laputa-app/demo-vault' },
+]
+
 function App() {
   const [selection, setSelection] = useState<SidebarSelection>(DEFAULT_SELECTION)
   const [sidebarWidth, setSidebarWidth] = useState(250)
@@ -33,9 +38,18 @@ function App() {
   const [showQuickOpen, setShowQuickOpen] = useState(false)
   const [showCommitDialog, setShowCommitDialog] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [vaultPath, setVaultPath] = useState(VAULTS[0].path)
 
-  const vault = useVaultLoader()
+  const vault = useVaultLoader(vaultPath)
   const notes = useNoteActions(vault.addEntry, vault.updateContent, vault.entries, setToastMessage)
+
+  // Reset UI state when vault changes
+  const handleSwitchVault = useCallback((path: string) => {
+    setVaultPath(path)
+    setSelection(DEFAULT_SELECTION)
+    setGitHistory([])
+    notes.closeAllTabs()
+  }, [notes])
 
   // Load git history when active tab changes
   useEffect(() => {
@@ -131,7 +145,7 @@ function App() {
           />
         </div>
       </div>
-      <StatusBar />
+      <StatusBar noteCount={vault.entries.length} vaultPath={vaultPath} vaults={VAULTS} onSwitchVault={handleSwitchVault} />
       <Toast message={toastMessage} onDismiss={() => setToastMessage(null)} />
       <QuickOpenPalette
         open={showQuickOpen}
