@@ -1,46 +1,38 @@
 import { test, expect } from '@playwright/test'
 
-test.use({ baseURL: 'http://localhost:5209' })
+test.use({ baseURL: 'http://localhost:5201' })
 
+/**
+ * Regression test: editor content must appear after clicking a note.
+ *
+ * Root cause: BlockNote's replaceBlocks/insertBlocks internally calls flushSync,
+ * which fails silently when invoked from inside React's useEffect lifecycle.
+ * Fix: defer the content swap via queueMicrotask.
+ */
 test('editor content appears on first note click', async ({ page }) => {
-  const logs: string[] = []
-  page.on('console', msg => logs.push(`[${msg.type()}] ${msg.text()}`))
+  const errors: string[] = []
+  page.on('console', msg => {
+    if (msg.type() === 'error') errors.push(msg.text())
+  })
 
   await page.goto('/')
   // Wait for note list to load
   await page.waitForSelector('.app__note-list .cursor-pointer', { timeout: 15000 })
   await page.waitForTimeout(200)
 
-  // Click the FIRST note in the note list (not sidebar)
+  // Click the first note in the note list
   const noteList = page.locator('.app__note-list')
   const firstNote = noteList.locator('.cursor-pointer').first()
-  const noteText = await firstNote.locator('.truncate').textContent().catch(() => 'unknown')
-  console.log('Clicking note:', noteText)
   await firstNote.click()
 
-  // Check at 500ms
-  await page.waitForTimeout(500)
-  await page.screenshot({ path: 'test-results/debug-after-500ms.png', fullPage: true })
+  // Wait for ProseMirror editor to have content
   const pm = page.locator('.ProseMirror')
-  const pmText500 = await pm.textContent().catch(() => '')
-  console.log('After 500ms - ProseMirror text length:', pmText500?.length)
-  console.log('After 500ms - ProseMirror text:', JSON.stringify(pmText500?.substring(0, 100)))
+  await expect(async () => {
+    const text = await pm.textContent()
+    expect(text?.trim().length, 'Editor content should not be empty').toBeGreaterThan(5)
+  }).toPass({ timeout: 5000 })
 
-  // Check at 3s
-  await page.waitForTimeout(2500)
-  await page.screenshot({ path: 'test-results/debug-after-3000ms.png', fullPage: true })
-  const pmText3000 = await pm.textContent().catch(() => '')
-  console.log('After 3000ms - ProseMirror text length:', pmText3000?.length)
-  console.log('After 3000ms - ProseMirror text:', JSON.stringify(pmText3000?.substring(0, 100)))
-
-  // Print errors and relevant logs
-  console.log('\n--- Browser errors ---')
-  for (const log of logs) {
-    if (log.includes('[error]') || log.includes('Failed') || log.includes('flushSync')) {
-      console.log(log)
-    }
-  }
-
-  // THE BUG: content should appear
-  expect(pmText3000?.trim().length, 'Editor content should not be empty after 3s').toBeGreaterThan(5)
+  // Verify no flushSync errors appeared
+  const flushSyncErrors = errors.filter(e => e.includes('flushSync'))
+  expect(flushSyncErrors, 'No flushSync-inside-lifecycle errors should occur').toHaveLength(0)
 })
