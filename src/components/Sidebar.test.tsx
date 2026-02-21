@@ -1,7 +1,19 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { Sidebar } from './Sidebar'
 import type { VaultEntry, SidebarSelection } from '../types'
+
+// Mock localStorage for section visibility tests
+const localStorageMock = (() => {
+  let store: Record<string, string> = {}
+  return {
+    getItem: (key: string) => store[key] ?? null,
+    setItem: (key: string, value: string) => { store[key] = value },
+    removeItem: (key: string) => { delete store[key] },
+    clear: () => { store = {} },
+  }
+})()
+Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock, writable: true })
 
 const mockEntries: VaultEntry[] = [
   {
@@ -391,6 +403,99 @@ describe('Sidebar', () => {
       // "Projects" should appear once (the built-in section), not twice
       const projectLabels = screen.getAllByText('Projects')
       expect(projectLabels.length).toBe(1)
+    })
+  })
+
+  describe('customize section visibility', () => {
+    beforeEach(() => {
+      localStorageMock.clear()
+    })
+
+    it('renders a "Customize sections" button', () => {
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+      expect(screen.getByTitle('Customize sections')).toBeInTheDocument()
+    })
+
+    it('opens popover with toggle for each section when clicking customize button', () => {
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+      fireEvent.click(screen.getByTitle('Customize sections'))
+      expect(screen.getByText('Show in sidebar')).toBeInTheDocument()
+      expect(screen.getByLabelText('Toggle Projects')).toBeInTheDocument()
+      expect(screen.getByLabelText('Toggle People')).toBeInTheDocument()
+      expect(screen.getByLabelText('Toggle Topics')).toBeInTheDocument()
+    })
+
+    it('hides a section when its toggle is clicked off', () => {
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+      // People section should be visible initially
+      expect(screen.getByText('Alice')).toBeInTheDocument()
+
+      // Open customize popover and toggle People off
+      fireEvent.click(screen.getByTitle('Customize sections'))
+      fireEvent.click(screen.getByLabelText('Toggle People'))
+
+      // People section and its items should be gone
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument()
+    })
+
+    it('re-shows a section when its toggle is clicked on again', () => {
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+
+      // Hide People
+      fireEvent.click(screen.getByTitle('Customize sections'))
+      fireEvent.click(screen.getByLabelText('Toggle People'))
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument()
+
+      // Show People again
+      fireEvent.click(screen.getByLabelText('Toggle People'))
+      expect(screen.getByText('Alice')).toBeInTheDocument()
+    })
+
+    it('persists hidden sections in localStorage', () => {
+      const { unmount } = render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+      fireEvent.click(screen.getByTitle('Customize sections'))
+      fireEvent.click(screen.getByLabelText('Toggle Events'))
+      unmount()
+
+      // Verify localStorage was updated
+      const stored = JSON.parse(localStorage.getItem('laputa-hidden-sections') || '[]')
+      expect(stored).toContain('Event')
+    })
+
+    it('restores hidden sections from localStorage on mount', () => {
+      localStorage.setItem('laputa-hidden-sections', JSON.stringify(['Person', 'Event']))
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+
+      // People and Events sections should be hidden
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument()
+      expect(screen.queryByText('Kickoff Meeting')).not.toBeInTheDocument()
+
+      // Other sections should still be visible
+      expect(screen.getByText('Build Laputa App')).toBeInTheDocument()
+      expect(screen.getByText('Software Development')).toBeInTheDocument()
+    })
+
+    it('does not affect All Notes or other sidebar filters when sections are hidden', () => {
+      localStorage.setItem('laputa-hidden-sections', JSON.stringify(['Project', 'Person']))
+      render(<Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />)
+
+      // Top nav items still present
+      expect(screen.getByText('All Notes')).toBeInTheDocument()
+      expect(screen.getByText('Favorites')).toBeInTheDocument()
+    })
+
+    it('closes popover when clicking outside', () => {
+      render(
+        <div>
+          <div data-testid="outside">outside</div>
+          <Sidebar entries={mockEntries} selection={defaultSelection} onSelect={() => {}} />
+        </div>
+      )
+      fireEvent.click(screen.getByTitle('Customize sections'))
+      expect(screen.getByText('Show in sidebar')).toBeInTheDocument()
+
+      fireEvent.mouseDown(screen.getByTestId('outside'))
+      expect(screen.queryByText('Show in sidebar')).not.toBeInTheDocument()
     })
   })
 })
