@@ -278,8 +278,8 @@ function NoteListInner({ entries, selection, selectedNote, allContent, modifiedF
 
   const renderItem = useCallback((entry: VaultEntry, isPinned = false) => {
     const isSelected = selectedNote?.path === entry.path && !isPinned
-    const typeColor = getTypeColor(entry.isA ?? '')
-    const typeLightColor = getTypeLightColor(entry.isA ?? '')
+    const typeColor = getTypeColor(entry.isA ?? 'Note')
+    const typeLightColor = getTypeLightColor(entry.isA ?? 'Note')
     const TypeIcon = getTypeIcon(entry.isA)
     return (
       <div

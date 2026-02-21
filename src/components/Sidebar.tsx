@@ -60,7 +60,7 @@ export const Sidebar = memo(function Sidebar({ entries, selection, onSelect, onS
     setCollapsed((prev) => ({ ...prev, [type]: !prev[type] }))
   }
 
-  const getSectionColor = (entry: VaultEntry) => getTypeColor(entry.isA ?? '')
+  const getSectionColor = (entry: VaultEntry) => getTypeColor(entry.isA ?? 'Note')
 
   const isActive = (sel: SidebarSelection): boolean => {
     if (selection.kind !== sel.kind) return false

@@ -15,6 +15,8 @@ Laputa is a personal knowledge and life management desktop app. It reads a vault
 | Build | Vite | 7.3.1 |
 | Backend language | Rust (edition 2021) | 1.77.2 |
 | Frontmatter parsing | gray_matter | 0.2 |
+| AI | Anthropic Claude API (Haiku 3.5 default) | - |
+| MCP | @modelcontextprotocol/sdk | 1.0 |
 | Tests | Vitest (unit), Playwright (E2E), cargo test (Rust) | - |
 | Package manager | pnpm | - |
 
@@ -30,19 +32,22 @@ Laputa is a personal knowledge and life management desktop app. It reads a vault
 │  │    ├── Sidebar         (navigation + filters)        │   │
 │  │    ├── NoteList         (filtered note list)          │   │
 │  │    ├── Editor           (BlockNote + tabs + diff)     │   │
-│  │    │     └── Inspector  (metadata + relationships)    │   │
+│  │    │     ├── Inspector  (metadata + relationships)    │   │
+│  │    │     └── AIChatPanel (AI assistant + context)     │   │
 │  │    ├── StatusBar        (footer info)                 │   │
 │  │    └── Modals (QuickOpen, CreateNote, CommitDialog)  │   │
 │  │                                                      │   │
-│  └──────────────┬───────────────────────────────────────┘   │
-│                 │ Tauri IPC (invoke)                         │
-│  ┌──────────────▼───────────────────────────────────────┐   │
-│  │                  Rust Backend                         │   │
-│  │    lib.rs      → 9 Tauri commands                     │   │
-│  │    vault.rs    → file scanning, frontmatter parsing   │   │
-│  │    frontmatter.rs → YAML manipulation                 │   │
-│  │    git.rs      → git log, diff, commit, push          │   │
-│  └──────────────────────────────────────────────────────┘   │
+│  └──────────────┬──────────┬──────────────────────────┘   │
+│                 │          │                               │
+│        Tauri IPC│     Vite Proxy / WS                     │
+│  ┌──────────────▼────┐ ┌──▼───────────────────────────┐   │
+│  │   Rust Backend    │ │   External Services          │   │
+│  │  lib.rs → 10 cmds │ │  Anthropic API (Claude)      │   │
+│  │  vault.rs         │ │  MCP Server (ws://9710)      │   │
+│  │  frontmatter.rs   │ │                              │   │
+│  │  git.rs           │ └──────────────────────────────┘   │
+│  │  ai_chat.rs       │                                    │
+│  └───────────────────┘                                    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -52,13 +57,13 @@ Laputa is a personal knowledge and life management desktop app. It reads a vault
 ┌────────┬─────────────┬─────────────────────────┬────────────┐
 │Sidebar │ Note List   │ Editor                  │ Inspector  │
 │(250px) │ (300px)     │ (flex-1)                │ (280px)    │
-│        │             │                         │            │
-│ All    │ [Search]    │ [Tab Bar]               │ Properties │
-│ Favs   │ [Type Pill] │ [Breadcrumb Bar]        │ Relations  │
-│        │             │                         │ Backlinks  │
-│Projects│ Note 1      │ # My Note               │ Git History│
-│Experim.│ Note 2      │                         │            │
-│Respons.│ Note 3      │ Content here...         │            │
+│        │             │                         │ OR         │
+│ All    │ [Search]    │ [Tab Bar]               │ AI Chat    │
+│ Favs   │ [Type Pill] │ [Breadcrumb Bar]        │            │
+│        │             │                         │ Context    │
+│Projects│ Note 1      │ # My Note               │ Messages   │
+│Experim.│ Note 2      │                         │ Actions    │
+│Respons.│ Note 3      │ Content here...         │ Input      │
 │Procedu.│ ...         │                         │            │
 │People  │             │                         │            │
 │Events  │             │                         │            │
@@ -71,9 +76,105 @@ Laputa is a personal knowledge and life management desktop app. It reads a vault
 - **Sidebar** (150-400px, resizable): Top-level filters (All Notes, Favorites) and collapsible section groups (Projects, Experiments, Responsibilities, etc.)
 - **Note List** (200-500px, resizable): Filtered list of notes matching the sidebar selection. Shows snippets, modified dates, and relationship groups.
 - **Editor** (flex, fills remaining space): Tab bar, breadcrumb bar with word count and modified indicator, BlockNote editor with wikilink support. Can toggle to diff view for modified files.
-- **Inspector** (200-500px or 40px collapsed): Frontmatter properties (editable), relationships, backlinks, git history. Collapses to a thin icon strip.
+- **Inspector / AI Chat** (200-500px or 40px collapsed): Toggles between Inspector (frontmatter, relationships, backlinks, git history) and AI Chat panel. The Sparkle icon in the breadcrumb bar toggles between them.
 
 Panels are separated by `ResizeHandle` components that support drag-to-resize.
+
+## AI Chat System
+
+### Architecture
+
+The AI chat feature has three layers:
+
+1. **Frontend** (`AIChatPanel` + `useAIChat` hook) — UI and state management
+2. **API Proxy** (Vite middleware in dev, Rust `ai_chat` command in Tauri) — routes to Anthropic
+3. **MCP Server** (`mcp-server/`) — vault operation tools for AI assistants
+
+### Data Flow
+
+```
+User types message in AIChatPanel
+  → useAIChat.sendMessage(text)
+    → buildSystemPrompt(contextNotes, allContent, model)
+      → Assembles selected notes as system context
+      → Estimates tokens, truncates if needed
+    → streamChat(messages, systemPrompt, model, callbacks)
+      → POST /api/ai/chat (Vite proxy → Anthropic API)
+      → SSE stream parsed, chunks dispatched to onChunk callback
+      → UI updates in real-time as tokens arrive
+    → On completion: message added to conversation history
+```
+
+### Context Picker
+
+The context picker controls which notes are sent to the AI as context:
+
+- **Current note** is auto-added when the panel opens
+- **Add button** opens a search dropdown to select additional notes
+- **Token estimation** shows approximate context size (~4 chars/token)
+- **Truncation** kicks in when context exceeds 60% of model limit (108k tokens)
+- Context pills show selected notes with remove buttons
+
+### API Key Management
+
+- Stored in `localStorage` under key `laputa:anthropic-api-key`
+- Configurable via the key icon in the AI Chat header
+- When no key is set, falls back to mock responses for testing
+
+### Models
+
+| Model | ID | Use case |
+|-------|----|----------|
+| Haiku 3.5 | `claude-3-5-haiku-20241022` | Fast, cheap — default |
+| Sonnet 4 | `claude-sonnet-4-20250514` | Balanced |
+| Opus 4 | `claude-opus-4-20250514` | Most capable |
+
+### MCP Server
+
+The MCP server (`mcp-server/`) exposes vault operations as tools:
+
+| Tool | Description |
+|------|-------------|
+| `open_note` | Open and read a note by path |
+| `read_note` | Read note content (alias) |
+| `create_note` | Create new note with frontmatter |
+| `search_notes` | Search by title or content |
+| `append_to_note` | Append text to a note |
+
+**Transports:**
+- **stdio** — standard MCP transport (`node mcp-server/index.js`)
+- **WebSocket** — live bridge for app integration (`node mcp-server/ws-bridge.js`, port 9710)
+
+### WebSocket Bridge
+
+The WebSocket bridge (`useMcpBridge` hook) enables real-time vault operations from the frontend:
+
+```
+Frontend (useMcpBridge) ←→ ws://localhost:9710 ←→ ws-bridge.js ←→ vault.js
+```
+
+Protocol: JSON-RPC-like with `{id, tool, args}` requests and `{id, result}` responses.
+
+### Rust Backend (Tauri)
+
+The `ai_chat` Tauri command (`src-tauri/src/ai_chat.rs`) provides a non-streaming alternative:
+- Uses `reqwest` to call the Anthropic Messages API directly
+- API key from `ANTHROPIC_API_KEY` environment variable
+- Returns full response (not streamed)
+- Used in production Tauri builds where Vite proxy is unavailable
+
+### Files
+
+| File | Purpose |
+|------|---------|
+| `src/components/AIChatPanel.tsx` | Main UI: context bar, messages, input, quick actions |
+| `src/hooks/useAIChat.ts` | Chat state: messages, streaming, send/retry/clear |
+| `src/hooks/useMcpBridge.ts` | WebSocket client for MCP vault tool calls |
+| `src/utils/ai-chat.ts` | API client, token estimation, context builder |
+| `src-tauri/src/ai_chat.rs` | Rust Anthropic API client (non-streaming) |
+| `mcp-server/index.js` | MCP server entry (stdio transport) |
+| `mcp-server/vault.js` | Vault file operations |
+| `mcp-server/ws-bridge.js` | WebSocket bridge server |
 
 ## Data Flow
 
@@ -138,12 +239,13 @@ All commands are defined in `src-tauri/src/lib.rs` and registered via `tauri::ge
 | `get_file_diff` | `vault_path, path` | `String` (unified diff) | `git::get_file_diff()` |
 | `git_commit` | `vault_path, message` | `String` | `git::git_commit()` |
 | `git_push` | `vault_path` | `String` | `git::git_push()` |
+| `ai_chat` | `request: AiChatRequest` | `AiChatResponse` | `ai_chat::send_chat()` |
 
 All commands return `Result<T, String>`. Errors are serialized as JSON error objects to the frontend.
 
 ## Mock Layer
 
-When running outside Tauri (browser at `localhost:5173`), `src/mock-tauri.ts` provides a transparent mock layer:
+When running outside Tauri (browser at `localhost:5201`), `src/mock-tauri.ts` provides a transparent mock layer:
 
 ```typescript
 // In hooks, the pattern is always:
@@ -155,22 +257,25 @@ if (isTauri()) {
 ```
 
 The mock layer includes:
-- **12 sample entries** across all entity types (Project, Responsibility, Procedure, Experiment, Note, Person, Event, Topic)
+- **15 sample entries** across all entity types (Project, Responsibility, Procedure, Experiment, Note, Person, Event, Topic, Essay)
 - **Full markdown content** with realistic frontmatter for each entry
 - **Mock git history, modified files, and diff output**
+- **Mock AI chat responses** with context-aware answers (summarize, expand, grammar)
 - `addMockEntry()` and `updateMockContent()` for runtime updates
 
 This means the entire UI can be developed and tested in Chrome without the Rust backend.
 
 ## State Management
 
-No Redux or global context. State lives in the root `App.tsx` and two custom hooks:
+No Redux or global context. State lives in the root `App.tsx` and custom hooks:
 
 | State owner | State | Purpose |
 |-------------|-------|---------|
-| `App.tsx` | `selection`, panel widths, dialog visibility, toast | UI state |
+| `App.tsx` | `selection`, panel widths, dialog visibility, toast, `showAIChat` | UI state |
 | `useVaultLoader` | `entries`, `allContent`, `modifiedFiles` | Vault data |
 | `useNoteActions` | `tabs`, `activeTabPath` | Open tabs and note operations |
+| `useAIChat` | `messages`, `isStreaming`, `streamingContent` | AI conversation state |
+| `useMcpBridge` | `connected`, tool methods | MCP WebSocket connection |
 
 Data flows unidirectionally: `App` passes data and callbacks as props to child components. No child-to-child communication — everything goes through `App`.
 

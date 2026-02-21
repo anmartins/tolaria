@@ -327,6 +327,7 @@ export const Editor = memo(function Editor({
       <AIChatPanel
         entry={inspectorEntry}
         allContent={allContent}
+        entries={entries}
         onClose={() => onToggleAIChat?.()}
       />
     </div>

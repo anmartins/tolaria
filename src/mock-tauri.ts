@@ -1242,6 +1242,23 @@ const mockHandlers: Record<string, (args: any) => any> = {
   git_push: () => {
     return 'Everything up-to-date'
   },
+  ai_chat: (args: { request: { messages: any[]; model?: string; system?: string } }) => {
+    const lastMsg = args.request.messages[args.request.messages.length - 1]?.content ?? ''
+    const lower = lastMsg.toLowerCase()
+    let content = `I can help you with that. Could you provide more details about what you'd like to know?`
+    if (lower.includes('summarize')) {
+      content = `Here's a summary of the note:\n\n**Key Points:**\n- The note covers the main topic and its related concepts\n- It includes actionable items and references to other notes\n- Several wiki-links connect it to the broader knowledge base\n\nWould you like me to expand on any of these points?`
+    } else if (lower.includes('expand')) {
+      content = `Here are suggestions to expand this note:\n\n1. **Add context** — Include background information\n2. **Link related notes** — Connect to [[related topics]]\n3. **Add examples** — Include concrete examples\n4. **Update status** — Reflect current progress`
+    } else if (lower.includes('grammar')) {
+      content = `Grammar review complete. The writing is clear and well-structured. Minor suggestions:\n\n- Consider varying sentence lengths for better rhythm\n- A few passive constructions could be made active`
+    }
+    return {
+      content,
+      model: args.request.model ?? 'claude-3-5-haiku-20241022',
+      stop_reason: 'end_turn',
+    }
+  },
 }
 
 export function isTauri(): boolean {

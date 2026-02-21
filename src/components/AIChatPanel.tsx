@@ -1,56 +1,28 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import type { VaultEntry } from '../types'
-import { X, Plus, PaperPlaneRight, Copy, ArrowClockwise, TextIndent } from '@phosphor-icons/react'
-import { Sparkle } from '@phosphor-icons/react'
-import { countWords } from '../utils/wikilinks'
+import {
+  X, Plus, PaperPlaneRight, Copy, ArrowClockwise,
+  TextIndent, Sparkle, Key, MagnifyingGlass, Minus,
+} from '@phosphor-icons/react'
+import {
+  type ChatMessage, getApiKey, setApiKey,
+  buildSystemPrompt, MODEL_OPTIONS,
+} from '../utils/ai-chat'
+import { useAIChat } from '../hooks/useAIChat'
 
-interface ChatMessage {
-  role: 'user' | 'assistant'
-  content: string
-  id: string
-}
+// --- Sub-components ---
 
 interface AIChatPanelProps {
   entry: VaultEntry | null
   allContent: Record<string, string>
+  entries?: VaultEntry[]
   onClose: () => void
-}
-
-function countWikilinks(content: string): number {
-  const matches = content.match(/\[\[.*?\]\]/g)
-  return matches ? matches.length : 0
-}
-
-function generateMockResponse(message: string, entry: VaultEntry | null, content: string): string {
-  const title = entry?.title ?? 'Untitled'
-  const words = countWords(content)
-  const links = countWikilinks(content)
-  const lower = message.toLowerCase()
-
-  if (lower.includes('summarize')) {
-    return `This note is about **${title}**. It covers the main concepts documented in your vault. The document contains ${words} words and links to ${links} related notes.`
-  }
-  if (lower.includes('expand')) {
-    return `Here are some ways to expand this note:\n\n1. Add more detail to the introduction\n2. Include related examples from your vault\n3. Connect it to your quarterly goals\n4. Add a summary section at the end`
-  }
-  if (lower.includes('fix grammar') || lower.includes('grammar')) {
-    return `I reviewed the document for grammar issues. The writing looks clean overall — I found no major errors. Consider varying sentence length for better readability.`
-  }
-
-  const bodyStart = content.replace(/^---[\s\S]*?---\n?/, '').replace(/^# [^\n]*\n?/, '').trim()
-  const snippet = bodyStart.slice(0, 120)
-  return `Based on the content of **${title}**: ${snippet}...\n\nIs there a specific aspect you would like me to focus on?`
-}
-
-let msgIdCounter = 0
-function nextId(): string {
-  return `msg-${++msgIdCounter}-${Date.now()}`
 }
 
 function TypingIndicator() {
   return (
     <div className="flex items-start gap-2" style={{ padding: '8px 12px' }}>
-      <div className="typing-indicator" style={{ display: 'flex', gap: 4, padding: '10px 0' }}>
+      <div style={{ display: 'flex', gap: 4, padding: '10px 0' }}>
         <span className="typing-dot" />
         <span className="typing-dot" style={{ animationDelay: '0.2s' }} />
         <span className="typing-dot" style={{ animationDelay: '0.4s' }} />
@@ -59,298 +31,232 @@ function TypingIndicator() {
   )
 }
 
-export function AIChatPanel({ entry, allContent, onClose }: AIChatPanelProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [input, setInput] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
-  const [model, setModel] = useState('sonnet-4.6')
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+function ContextPill({ note, onRemove }: { note: VaultEntry; onRemove: () => void }) {
+  return (
+    <span
+      className="flex items-center gap-1"
+      style={{
+        background: 'var(--accent-green-light)',
+        borderRadius: 99, fontSize: 11,
+        padding: '2px 6px 2px 8px', color: 'var(--foreground)', maxWidth: 160,
+      }}
+    >
+      <span className="truncate">{note.title}</span>
+      <button
+        className="flex items-center justify-center shrink-0 border-none bg-transparent p-0 cursor-pointer text-muted-foreground hover:text-foreground"
+        onClick={onRemove} title={`Remove ${note.title}`}
+      >
+        <Minus size={10} weight="bold" />
+      </button>
+    </span>
+  )
+}
 
-  const content = entry ? (allContent[entry.path] ?? '') : ''
-  const wikilinkCount = countWikilinks(content)
+function ContextSearchDropdown({
+  entries, contextPaths, onAdd, onClose,
+}: {
+  entries: VaultEntry[]; contextPaths: Set<string>
+  onAdd: (entry: VaultEntry) => void; onClose: () => void
+}) {
+  const [query, setQuery] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+  useEffect(() => { inputRef.current?.focus() }, [])
 
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+  const filtered = useMemo(() => {
+    const q = query.toLowerCase()
+    return entries
+      .filter(e => !contextPaths.has(e.path))
+      .filter(e => !q || e.title.toLowerCase().includes(q) || (e.isA ?? '').toLowerCase().includes(q))
+      .slice(0, 8)
+  }, [entries, contextPaths, query])
+
+  return (
+    <div className="absolute left-0 right-0 bg-background border border-border rounded shadow-lg z-10"
+      style={{ top: '100%', maxHeight: 240, overflow: 'hidden' }}>
+      <div className="flex items-center gap-1 border-b border-border" style={{ padding: '4px 8px' }}>
+        <MagnifyingGlass size={12} className="text-muted-foreground shrink-0" />
+        <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)}
+          onKeyDown={e => e.key === 'Escape' && onClose()} placeholder="Search notes..."
+          className="flex-1 border-none bg-transparent text-foreground outline-none"
+          style={{ fontSize: 12, padding: '2px 0' }} />
+      </div>
+      <div style={{ overflow: 'auto', maxHeight: 200 }}>
+        {filtered.map(entry => (
+          <button key={entry.path}
+            className="flex items-center gap-2 w-full text-left border-none bg-transparent cursor-pointer hover:bg-accent text-foreground"
+            style={{ padding: '6px 10px', fontSize: 12 }}
+            onClick={() => { onAdd(entry); onClose() }}>
+            <span className="text-muted-foreground" style={{ fontSize: 10, minWidth: 60 }}>{entry.isA ?? 'Note'}</span>
+            <span className="truncate">{entry.title}</span>
+          </button>
+        ))}
+        {filtered.length === 0 && (
+          <div className="text-muted-foreground text-center" style={{ padding: 12, fontSize: 12 }}>No matching notes</div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ApiKeyDialog({ onClose }: { onClose: () => void }) {
+  const [key, setKey] = useState(getApiKey())
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50" style={{ background: 'rgba(0,0,0,0.4)' }}>
+      <div className="bg-background border border-border rounded-lg shadow-xl" style={{ width: 400, padding: 20 }}>
+        <h3 className="text-foreground" style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px' }}>Anthropic API Key</h3>
+        <p className="text-muted-foreground" style={{ fontSize: 12, margin: '0 0 12px', lineHeight: 1.5 }}>
+          Enter your Anthropic API key. Stored locally in your browser.
+        </p>
+        <input type="password" value={key} onChange={e => setKey(e.target.value)} placeholder="sk-ant-..."
+          className="w-full border border-border bg-transparent text-foreground rounded"
+          style={{ fontSize: 13, padding: '8px 10px', outline: 'none', marginBottom: 12 }} />
+        <div className="flex justify-end gap-2">
+          <button className="border border-border bg-transparent text-foreground rounded cursor-pointer hover:bg-accent"
+            style={{ fontSize: 12, padding: '6px 14px' }} onClick={onClose}>Cancel</button>
+          <button className="border-none rounded cursor-pointer"
+            style={{ fontSize: 12, padding: '6px 14px', background: 'var(--primary)', color: 'white' }}
+            onClick={() => { setApiKey(key); onClose() }}>Save</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AssistantMessage({ msg, onRetry }: { msg: ChatMessage; onRetry: () => void }) {
+  return (
+    <div>
+      <div style={{ fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}
+        dangerouslySetInnerHTML={{
+          __html: msg.content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>'),
+        }} />
+      <div className="flex items-center gap-3" style={{ marginTop: 4 }}>
+        <button className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
+          style={{ fontSize: 11 }} onClick={() => navigator.clipboard.writeText(msg.content)}>
+          <Copy size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />Copy
+        </button>
+        <button className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
+          style={{ fontSize: 11 }} onClick={onRetry}>
+          <ArrowClockwise size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />Retry
+        </button>
+        <button className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
+          style={{ fontSize: 11 }}>
+          <TextIndent size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />Insert
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function StreamingContent({ content }: { content: string }) {
+  return (
+    <div style={{ marginBottom: 12 }}>
+      <div style={{ fontSize: 13, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}
+        dangerouslySetInnerHTML={{
+          __html: content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>'),
+        }} />
+    </div>
+  )
+}
+
+function UserBubble({ content }: { content: string }) {
+  return (
+    <div className="flex justify-end">
+      <div style={{
+        background: 'var(--primary)', color: 'white',
+        borderRadius: '12px 12px 2px 12px', maxWidth: '85%',
+        padding: '8px 12px', fontSize: 13, lineHeight: 1.5, whiteSpace: 'pre-wrap',
+      }}>{content}</div>
+    </div>
+  )
+}
+
+function formatTokens(n: number): string {
+  return n < 1000 ? String(n) : `${(n / 1000).toFixed(1)}k`
+}
+
+const QUICK_ACTIONS = [
+  { label: 'Summarize', message: 'Summarize this note' },
+  { label: 'Expand', message: 'Expand this note with more detail' },
+  { label: 'Fix grammar', message: 'Fix grammar and improve readability' },
+]
+
+// --- Context management hook ---
+
+function useContextNotes(entry: VaultEntry | null) {
+  const [contextNotes, setContextNotes] = useState<VaultEntry[]>([])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages, isTyping, scrollToBottom])
-
-  const sendMessage = useCallback((text: string) => {
-    if (!text.trim() || isTyping) return
-
-    const userMsg: ChatMessage = { role: 'user', content: text.trim(), id: nextId() }
-    setMessages(prev => [...prev, userMsg])
-    setInput('')
-    setIsTyping(true)
-
-    setTimeout(() => {
-      const response = generateMockResponse(text, entry, content)
-      const assistantMsg: ChatMessage = { role: 'assistant', content: response, id: nextId() }
-      setMessages(prev => [...prev, assistantMsg])
-      setIsTyping(false)
-    }, 1200)
-  }, [isTyping, entry, content])
-
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage(input)
+    if (entry) {
+      setContextNotes(prev => prev.some(n => n.path === entry.path) ? prev : [entry, ...prev])
     }
-  }, [input, sendMessage])
+  }, [entry?.path]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleClearConversation = useCallback(() => {
-    setMessages([])
-    setIsTyping(false)
-  }, [])
+  const addNote = (note: VaultEntry) => {
+    setContextNotes(prev => prev.some(n => n.path === note.path) ? prev : [...prev, note])
+  }
+  const removeNote = (path: string) => {
+    setContextNotes(prev => prev.filter(n => n.path !== path))
+  }
+  const paths = useMemo(() => new Set(contextNotes.map(n => n.path)), [contextNotes])
 
-  const handleRetry = useCallback((msgIndex: number) => {
-    const userMsgIndex = msgIndex - 1
-    if (userMsgIndex < 0) return
-    const userMsg = messages[userMsgIndex]
-    if (userMsg.role !== 'user') return
+  return { contextNotes, addNote, removeNote, paths }
+}
 
-    setMessages(prev => prev.slice(0, msgIndex))
-    setIsTyping(true)
+// --- Main component ---
 
-    setTimeout(() => {
-      const response = generateMockResponse(userMsg.content, entry, content)
-      const assistantMsg: ChatMessage = { role: 'assistant', content: response, id: nextId() }
-      setMessages(prev => [...prev, assistantMsg])
-      setIsTyping(false)
-    }, 1200)
-  }, [messages, entry, content])
+export function AIChatPanel({ entry, allContent, entries = [], onClose }: AIChatPanelProps) {
+  const [input, setInput] = useState('')
+  const [model, setModel] = useState<string>(MODEL_OPTIONS[0].value)
+  const [showSearch, setShowSearch] = useState(false)
+  const [showApiKeyDialog, setShowApiKeyDialog] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const quickActions = [
-    { label: 'Summarize', message: 'Summarize this note' },
-    { label: 'Expand', message: 'Expand this note' },
-    { label: 'Fix grammar', message: 'Fix grammar in this note' },
-  ]
+  const ctx = useContextNotes(entry)
+  const chat = useAIChat(entry, allContent, ctx.contextNotes, model)
+
+  const contextInfo = useMemo(
+    () => buildSystemPrompt(ctx.contextNotes, allContent, model),
+    [ctx.contextNotes, allContent, model],
+  )
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [chat.messages, chat.isStreaming, chat.streamingContent])
+
+  const handleSend = () => { chat.sendMessage(input); setInput('') }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
+  }
 
   return (
     <aside className="flex flex-1 flex-col overflow-hidden border-l border-border bg-background text-foreground">
-      {/* Header */}
-      <div
-        className="flex shrink-0 items-center border-b border-border"
-        style={{ height: 45, padding: '0 12px', gap: 8 }}
-      >
-        <Sparkle size={16} className="shrink-0 text-muted-foreground" />
-        <span className="flex-1 text-muted-foreground" style={{ fontSize: 13, fontWeight: 600 }}>AI Chat</span>
-        <button
-          className="shrink-0 border-none bg-transparent p-1 text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-          onClick={handleClearConversation}
-          title="New conversation"
-        >
-          <Plus size={16} />
-        </button>
-        <button
-          className="shrink-0 border-none bg-transparent p-1 text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
-          onClick={onClose}
-          title="Close AI Chat"
-        >
-          <X size={16} />
-        </button>
-      </div>
+      <PanelHeader onApiKey={() => setShowApiKeyDialog(true)} onClear={chat.clearConversation} onClose={onClose} />
 
-      {/* Context Bar */}
-      {entry && (
-        <div
-          className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border"
-          style={{ padding: '8px 12px' }}
-        >
-          <span
-            style={{
-              background: 'var(--accent-green-light)',
-              borderRadius: 99,
-              fontSize: 11,
-              padding: '2px 8px',
-              color: 'var(--foreground)',
-            }}
-          >
-            {entry.title}
-          </span>
-          <span
-            style={{
-              background: 'var(--accent-green-light)',
-              borderRadius: 99,
-              fontSize: 11,
-              padding: '2px 8px',
-              color: 'var(--foreground)',
-            }}
-          >
-            Frontmatter
-          </span>
-          <span
-            style={{
-              background: 'var(--accent-green-light)',
-              borderRadius: 99,
-              fontSize: 11,
-              padding: '2px 8px',
-              color: 'var(--foreground)',
-            }}
-          >
-            {wikilinkCount} Links
-          </span>
-        </div>
-      )}
+      <ContextBar
+        notes={ctx.contextNotes} entries={entries} contextPaths={ctx.paths}
+        tokenCount={contextInfo.totalTokens} truncated={contextInfo.truncated}
+        showSearch={showSearch} onToggleSearch={() => setShowSearch(!showSearch)}
+        onAdd={ctx.addNote} onRemove={ctx.removeNote} onCloseSearch={() => setShowSearch(false)}
+      />
 
-      {/* Message List */}
-      <div className="flex-1 overflow-y-auto" style={{ padding: '12px' }}>
-        {messages.length === 0 && !isTyping && (
-          <div className="flex flex-col items-center justify-center text-center text-muted-foreground" style={{ paddingTop: 40 }}>
-            <Sparkle size={24} style={{ marginBottom: 8, opacity: 0.5 }} />
-            <p style={{ fontSize: 13, margin: 0 }}>Ask anything about this document</p>
-          </div>
-        )}
-        {messages.map((msg, idx) => (
-          <div key={msg.id} style={{ marginBottom: 12 }}>
-            {msg.role === 'user' ? (
-              <div className="flex justify-end">
-                <div
-                  style={{
-                    background: 'var(--primary)',
-                    color: 'white',
-                    borderRadius: '12px 12px 2px 12px',
-                    maxWidth: '85%',
-                    padding: '8px 12px',
-                    fontSize: 13,
-                    lineHeight: 1.5,
-                    whiteSpace: 'pre-wrap',
-                  }}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    lineHeight: 1.6,
-                    whiteSpace: 'pre-wrap',
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: msg.content
-                      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                      .replace(/\n/g, '<br/>'),
-                  }}
-                />
-                <div className="flex items-center gap-3" style={{ marginTop: 4 }}>
-                  <button
-                    className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
-                    style={{ fontSize: 11 }}
-                    onClick={() => navigator.clipboard.writeText(msg.content)}
-                  >
-                    <Copy size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />
-                    Copy
-                  </button>
-                  <button
-                    className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
-                    style={{ fontSize: 11 }}
-                    onClick={() => handleRetry(idx)}
-                  >
-                    <ArrowClockwise size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />
-                    Retry
-                  </button>
-                  <button
-                    className="border-none bg-transparent p-0 text-muted-foreground cursor-pointer hover:underline"
-                    style={{ fontSize: 11 }}
-                  >
-                    <TextIndent size={12} style={{ marginRight: 3, verticalAlign: 'middle' }} />
-                    Insert
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-        {isTyping && <TypingIndicator />}
-        <div ref={messagesEndRef} />
-      </div>
+      <MessageList
+        messages={chat.messages} isStreaming={chat.isStreaming}
+        streamingContent={chat.streamingContent} onRetry={chat.retryMessage}
+        messagesEndRef={messagesEndRef}
+      />
 
-      {/* Quick Actions Bar */}
-      <div
-        className="flex shrink-0 flex-wrap items-center gap-1.5 border-t border-border"
-        style={{ padding: '8px 12px' }}
-      >
-        {quickActions.map((action) => (
-          <button
-            key={action.label}
-            className="cursor-pointer bg-transparent text-foreground hover:bg-accent transition-colors"
-            style={{
-              fontSize: 11,
-              border: '1px solid var(--border)',
-              borderRadius: 99,
-              padding: '3px 10px',
-            }}
-            onClick={() => sendMessage(action.message)}
-            disabled={isTyping}
-          >
-            {action.label}
-          </button>
-        ))}
-      </div>
+      <QuickActionsBar actions={QUICK_ACTIONS} disabled={chat.isStreaming}
+        onAction={msg => { chat.sendMessage(msg); setInput('') }} />
 
-      {/* Input Area */}
-      <div className="flex shrink-0 flex-col border-t border-border" style={{ padding: '8px 12px' }}>
-        {/* Model selector */}
-        <div style={{ marginBottom: 6 }}>
-          <select
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            className="border border-border bg-transparent text-muted-foreground"
-            style={{ fontSize: 11, borderRadius: 4, padding: '2px 6px', outline: 'none' }}
-          >
-            <option value="sonnet-4.6">Sonnet 4.6</option>
-            <option value="opus-4.6">Opus 4.6</option>
-            <option value="haiku-4.5">Haiku 4.5</option>
-          </select>
-        </div>
-        {/* Input row */}
-        <div className="flex items-end gap-2">
-          <textarea
-            ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Ask about this document..."
-            rows={1}
-            className="flex-1 resize-none border border-border bg-transparent text-foreground"
-            style={{
-              fontSize: 13,
-              borderRadius: 8,
-              padding: '8px 10px',
-              outline: 'none',
-              lineHeight: 1.4,
-              maxHeight: 100,
-              fontFamily: 'inherit',
-            }}
-          />
-          <button
-            className="shrink-0 flex items-center justify-center border-none cursor-pointer transition-colors"
-            style={{
-              background: 'var(--primary)',
-              color: 'white',
-              borderRadius: 8,
-              width: 32,
-              height: 34,
-            }}
-            onClick={() => sendMessage(input)}
-            disabled={isTyping || !input.trim()}
-            title="Send message"
-          >
-            <PaperPlaneRight size={16} />
-          </button>
-        </div>
-      </div>
+      <InputArea model={model} onModelChange={setModel} input={input} onInputChange={setInput}
+        onKeyDown={handleKeyDown} onSend={handleSend} disabled={chat.isStreaming || !input.trim()} />
+
+      {showApiKeyDialog && <ApiKeyDialog onClose={() => setShowApiKeyDialog(false)} />}
 
       <style>{`
         .typing-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
+          width: 6px; height: 6px; border-radius: 50%;
           background: var(--muted-foreground);
           animation: typing-bounce 1.2s infinite ease-in-out;
         }
@@ -360,5 +266,136 @@ export function AIChatPanel({ entry, allContent, onClose }: AIChatPanelProps) {
         }
       `}</style>
     </aside>
+  )
+}
+
+// --- Extracted layout sections ---
+
+function PanelHeader({ onApiKey, onClear, onClose }: { onApiKey: () => void; onClear: () => void; onClose: () => void }) {
+  return (
+    <div className="flex shrink-0 items-center border-b border-border" style={{ height: 45, padding: '0 12px', gap: 8 }}>
+      <Sparkle size={16} className="shrink-0 text-muted-foreground" />
+      <span className="flex-1 text-muted-foreground" style={{ fontSize: 13, fontWeight: 600 }}>AI Chat</span>
+      <button className="shrink-0 border-none bg-transparent p-1 text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+        onClick={onApiKey} title="API Key settings">
+        <Key size={14} weight={getApiKey() ? 'fill' : 'regular'} />
+      </button>
+      <button className="shrink-0 border-none bg-transparent p-1 text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+        onClick={onClear} title="New conversation"><Plus size={16} /></button>
+      <button className="shrink-0 border-none bg-transparent p-1 text-muted-foreground cursor-pointer hover:text-foreground transition-colors"
+        onClick={onClose} title="Close AI Chat"><X size={16} /></button>
+    </div>
+  )
+}
+
+function ContextBar({
+  notes, entries, contextPaths, tokenCount, truncated,
+  showSearch, onToggleSearch, onAdd, onRemove, onCloseSearch,
+}: {
+  notes: VaultEntry[]; entries: VaultEntry[]; contextPaths: Set<string>
+  tokenCount: number; truncated: boolean
+  showSearch: boolean; onToggleSearch: () => void
+  onAdd: (note: VaultEntry) => void; onRemove: (path: string) => void; onCloseSearch: () => void
+}) {
+  return (
+    <div className="relative flex shrink-0 flex-wrap items-center gap-1.5 border-b border-border" style={{ padding: '6px 12px' }}>
+      {notes.map(note => (
+        <ContextPill key={note.path} note={note} onRemove={() => onRemove(note.path)} />
+      ))}
+      <button
+        className="flex items-center gap-0.5 border border-dashed border-border bg-transparent text-muted-foreground cursor-pointer hover:text-foreground rounded-full"
+        style={{ fontSize: 11, padding: '2px 8px' }} onClick={onToggleSearch} title="Add note to context">
+        <Plus size={10} weight="bold" /><span>Add</span>
+      </button>
+      {notes.length > 0 && (
+        <span className="text-muted-foreground ml-auto" style={{ fontSize: 10 }}>
+          ~{formatTokens(tokenCount)} tokens{truncated && ' (truncated)'}
+        </span>
+      )}
+      {showSearch && (
+        <ContextSearchDropdown entries={entries} contextPaths={contextPaths} onAdd={onAdd} onClose={onCloseSearch} />
+      )}
+    </div>
+  )
+}
+
+function MessageList({
+  messages, isStreaming, streamingContent, onRetry, messagesEndRef,
+}: {
+  messages: ChatMessage[]; isStreaming: boolean; streamingContent: string
+  onRetry: (idx: number) => void; messagesEndRef: React.RefObject<HTMLDivElement | null>
+}) {
+  return (
+    <div className="flex-1 overflow-y-auto" style={{ padding: 12 }}>
+      {messages.length === 0 && !isStreaming && (
+        <div className="flex flex-col items-center justify-center text-center text-muted-foreground" style={{ paddingTop: 40 }}>
+          <Sparkle size={24} style={{ marginBottom: 8, opacity: 0.5 }} />
+          <p style={{ fontSize: 13, margin: '0 0 4px' }}>Ask anything about your notes</p>
+          <p style={{ fontSize: 11, margin: 0, opacity: 0.6 }}>
+            {getApiKey() ? 'Connected to Anthropic API' : 'Set API key for real AI responses'}
+          </p>
+        </div>
+      )}
+      {messages.map((msg, idx) => (
+        <div key={msg.id} style={{ marginBottom: 12 }}>
+          {msg.role === 'user'
+            ? <UserBubble content={msg.content} />
+            : <AssistantMessage msg={msg} onRetry={() => onRetry(idx)} />}
+        </div>
+      ))}
+      {isStreaming && streamingContent && <StreamingContent content={streamingContent} />}
+      {isStreaming && !streamingContent && <TypingIndicator />}
+      <div ref={messagesEndRef} />
+    </div>
+  )
+}
+
+function QuickActionsBar({
+  actions, disabled, onAction,
+}: {
+  actions: { label: string; message: string }[]; disabled: boolean; onAction: (msg: string) => void
+}) {
+  return (
+    <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-t border-border" style={{ padding: '8px 12px' }}>
+      {actions.map(a => (
+        <button key={a.label}
+          className="cursor-pointer bg-transparent text-foreground hover:bg-accent transition-colors"
+          style={{ fontSize: 11, border: '1px solid var(--border)', borderRadius: 99, padding: '3px 10px' }}
+          onClick={() => onAction(a.message)} disabled={disabled}>
+          {a.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+function InputArea({
+  model, onModelChange, input, onInputChange, onKeyDown, onSend, disabled,
+}: {
+  model: string; onModelChange: (m: string) => void
+  input: string; onInputChange: (v: string) => void
+  onKeyDown: (e: React.KeyboardEvent) => void; onSend: () => void; disabled: boolean
+}) {
+  return (
+    <div className="flex shrink-0 flex-col border-t border-border" style={{ padding: '8px 12px' }}>
+      <div style={{ marginBottom: 6 }}>
+        <select value={model} onChange={e => onModelChange(e.target.value)}
+          className="border border-border bg-transparent text-muted-foreground"
+          style={{ fontSize: 11, borderRadius: 4, padding: '2px 6px', outline: 'none' }}>
+          {MODEL_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
+      </div>
+      <div className="flex items-end gap-2">
+        <textarea value={input} onChange={e => onInputChange(e.target.value)} onKeyDown={onKeyDown}
+          placeholder="Ask about your notes..." rows={1}
+          className="flex-1 resize-none border border-border bg-transparent text-foreground"
+          style={{ fontSize: 13, borderRadius: 8, padding: '8px 10px', outline: 'none', lineHeight: 1.4, maxHeight: 100, fontFamily: 'inherit' }} />
+        <button className="shrink-0 flex items-center justify-center border-none cursor-pointer transition-colors"
+          style={{ background: 'var(--primary)', color: 'white', borderRadius: 8, width: 32, height: 34 }}
+          onClick={onSend} disabled={disabled} title="Send message">
+          <PaperPlaneRight size={16} />
+        </button>
+      </div>
+    </div>
   )
 }
