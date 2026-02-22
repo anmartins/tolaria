@@ -90,6 +90,22 @@ After every meaningful architectural decision or abstraction, update the relevan
 - **Bug → Test rule**: Every bug found manually that tests didn't catch MUST result in a new test (unit or E2E) so it never regresses. Ask yourself: "Why didn't tests catch this?" and close the gap.
 - Edge cases matter: empty frontmatter, missing fields, malformed YAML, files with no H1 title
 
+### Test Coverage (MANDATORY — run before every commit)
+
+Coverage must never regress. Run these two commands before committing:
+
+```bash
+# Frontend — enforces 70% threshold on lines/functions/branches; exits non-zero if coverage drops
+pnpm test:coverage
+
+# Rust — enforces 85% line coverage; exits non-zero if coverage drops
+cargo llvm-cov --manifest-path src-tauri/Cargo.toml --fail-under-lines 85
+```
+
+If either command exits non-zero, **do not commit** until you've added tests to restore coverage.
+
+Current baselines (Feb 2026): Frontend ≥70% | Rust lines ≥85% (89.8% actual), functions ≥75% (81.5% actual).
+
 ### Code Quality
 - Prefer simple, readable code over clever abstractions
 - Don't over-engineer for future features — build what's needed now
@@ -145,7 +161,12 @@ The app has a **Tauri mock layer** (`src/mock-tauri.ts`): when running in a brow
 For any AI-touched code:
 
 1. Run `pre_commit_code_health_safeguard`.
-2. Run `code_health_review` for detailed analysis if the safeguard reports a regression.
+2. **Run coverage checks** (both must pass — exit 0 — before committing):
+   ```bash
+   pnpm test:coverage
+   cargo llvm-cov --manifest-path src-tauri/Cargo.toml --fail-under-lines 85
+   ```
+3. Run `code_health_review` for detailed analysis if the safeguard reports a regression.
 3. If Code Health regresses or fails quality gates:
    - Highlight the issue.
    - Refactor before suggesting commit.
