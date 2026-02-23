@@ -156,65 +156,63 @@ describe('useEditorSave', () => {
     // (We'll check via the next handleSave call)
   })
 
-  it('savePending flushes pending content to disk silently', async () => {
+  it('save updates tab content with edited body, not original (regression)', async () => {
     const { result } = renderSaveHook()
 
-    // No pending content — should be a no-op
-    await act(async () => {
-      await result.current.savePending()
-    })
-    expect(mockInvokeFn).not.toHaveBeenCalled()
+    // Simulate: user opens note, edits body, presses Cmd+S
+    const original = '---\ntitle: My Note\n---\n\n# My Note\n\nOriginal body'
+    const edited = '---\ntitle: My Note\n---\n\n# My Note\n\nEdited body with changes'
 
-    // Buffer content
     act(() => {
-      result.current.handleContentChange('/test/note.md', 'pending content')
+      result.current.handleContentChange('/vault/note.md', edited)
     })
-
-    // savePending should save without toasting
-    await act(async () => {
-      await result.current.savePending()
-    })
-    expect(mockInvokeFn).toHaveBeenCalledWith('save_note_content', {
-      path: '/test/note.md',
-      content: 'pending content',
-    })
-    expect(setToastMessage).not.toHaveBeenCalled()
-
-    // After savePending, pending is cleared
-    await act(async () => {
-      await result.current.savePending()
-    })
-    // No additional save call
-    expect(mockInvokeFn).toHaveBeenCalledTimes(1)
-  })
-
-  it('onAfterSave: called after handleSave but NOT after savePending', async () => {
-    const onAfterSave = vi.fn()
-    const { result } = renderHook(() =>
-      useEditorSave({ updateVaultContent, setTabs, setToastMessage, onAfterSave })
-    )
-
-    // savePending does not trigger onAfterSave (callers manage their own refresh)
-    act(() => { result.current.handleContentChange('/test/note.md', 'v1') })
-    await act(async () => { await result.current.savePending() })
-    expect(onAfterSave).not.toHaveBeenCalled()
-
-    // handleSave DOES trigger onAfterSave
-    act(() => { result.current.handleContentChange('/test/note.md', 'v2') })
-    await act(async () => { await result.current.handleSave() })
-    expect(onAfterSave).toHaveBeenCalledTimes(1)
-  })
-
-  it('onAfterSave is NOT called when there is nothing to save', async () => {
-    const onAfterSave = vi.fn()
-    const { result } = renderHook(() =>
-      useEditorSave({ updateVaultContent, setTabs, setToastMessage, onAfterSave })
-    )
 
     await act(async () => {
       await result.current.handleSave()
     })
 
-    expect(onAfterSave).not.toHaveBeenCalled()
+    // The save must persist the EDITED content, not the original
+    expect(mockInvokeFn).toHaveBeenCalledWith('save_note_content', {
+      path: '/vault/note.md',
+      content: edited,
+    })
+
+    // Tab content must be updated with the saved (edited) content
+    expect(setTabs).toHaveBeenCalled()
+    const tabUpdater = setTabs.mock.calls[0][0]
+    const fakeTabs = [{ entry: { path: '/vault/note.md' }, content: original }]
+    const updatedTabs = tabUpdater(fakeTabs)
+    expect(updatedTabs[0].content).toBe(edited)
+
+    // Vault in-memory state must also reflect the edit
+    expect(updateVaultContent).toHaveBeenCalledWith('/vault/note.md', edited)
+  })
+
+  it('successive edits and saves persist each version correctly', async () => {
+    const { result } = renderSaveHook()
+
+    // First edit + save
+    act(() => {
+      result.current.handleContentChange('/vault/note.md', 'version 1')
+    })
+    await act(async () => {
+      await result.current.handleSave()
+    })
+    expect(mockInvokeFn).toHaveBeenLastCalledWith('save_note_content', {
+      path: '/vault/note.md',
+      content: 'version 1',
+    })
+
+    // Second edit + save — must NOT revert to version 1
+    act(() => {
+      result.current.handleContentChange('/vault/note.md', 'version 2')
+    })
+    await act(async () => {
+      await result.current.handleSave()
+    })
+    expect(mockInvokeFn).toHaveBeenLastCalledWith('save_note_content', {
+      path: '/vault/note.md',
+      content: 'version 2',
+    })
   })
 })

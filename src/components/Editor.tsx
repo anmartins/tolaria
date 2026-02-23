@@ -266,12 +266,24 @@ export const Editor = memo(function Editor({
   useEffect(() => {
     const cache = tabCacheRef.current
     const prevPath = prevActivePathRef.current
+    const pathChanged = prevPath !== activeTabPath
 
     // Save current editor state for the tab we're leaving
-    if (prevPath && prevPath !== activeTabPath && editorMountedRef.current) {
+    if (prevPath && pathChanged && editorMountedRef.current) {
       cache.set(prevPath, editor.document)
     }
     prevActivePathRef.current = activeTabPath
+
+    // When tab content updates but the active tab stays the same (e.g. after
+    // Cmd+S save), refresh the cache with the current editor blocks so a later
+    // tab switch doesn't revert to stale content. Do NOT re-apply blocks —
+    // the editor already shows the user's edits.
+    if (!pathChanged) {
+      if (activeTabPath && editorMountedRef.current) {
+        cache.set(activeTabPath, editor.document)
+      }
+      return
+    }
 
     if (!activeTabPath) return
 
