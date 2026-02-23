@@ -114,3 +114,119 @@ pub fn migrate_is_a_to_type(vault_path: &str) -> Result<usize, String> {
 
     Ok(migrated)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+    use tempfile::tempdir;
+
+    fn write_file(dir: &std::path::Path, name: &str, content: &str) -> std::path::PathBuf {
+        let path = dir.join(name);
+        fs::write(&path, content).unwrap();
+        path
+    }
+
+    // --- has_legacy_is_a ---
+
+    #[test]
+    fn test_has_legacy_is_a_detects_is_a_colon() {
+        assert!(has_legacy_is_a("is_a: Person\nname: Alice"));
+    }
+
+    #[test]
+    fn test_has_legacy_is_a_detects_quoted_is_a() {
+        assert!(has_legacy_is_a("\"Is A\": Note\nname: Test"));
+    }
+
+    #[test]
+    fn test_has_legacy_is_a_detects_bare_is_a() {
+        assert!(has_legacy_is_a("Is A: Topic\n"));
+    }
+
+    #[test]
+    fn test_has_legacy_is_a_returns_false_for_clean_frontmatter() {
+        assert!(!has_legacy_is_a("type: Person\nname: Alice"));
+    }
+
+    // --- extract_is_a_value ---
+
+    #[test]
+    fn test_extract_is_a_value_from_is_a_colon() {
+        assert_eq!(extract_is_a_value("is_a: Person"), Some("Person"));
+    }
+
+    #[test]
+    fn test_extract_is_a_value_from_quoted() {
+        assert_eq!(extract_is_a_value("\"Is A\": Note"), Some("Note"));
+    }
+
+    #[test]
+    fn test_extract_is_a_value_returns_none_for_unrelated_line() {
+        assert_eq!(extract_is_a_value("name: Alice"), None);
+    }
+
+    // --- migrate_file_is_a_to_type ---
+
+    #[test]
+    fn test_migrate_file_adds_type_and_removes_is_a() {
+        let tmp = tempdir().unwrap();
+        let path = write_file(tmp.path(), "note.md", "---\nis_a: Person\nname: Alice\n---\n# Alice\n");
+        let result = migrate_file_is_a_to_type(&path).unwrap();
+        assert!(result, "file should be migrated");
+        let content = fs::read_to_string(&path).unwrap();
+        assert!(content.contains("type: Person"), "should have type field");
+        assert!(!content.contains("is_a:"), "should not have is_a field");
+    }
+
+    #[test]
+    fn test_migrate_file_skips_when_no_frontmatter() {
+        let tmp = tempdir().unwrap();
+        let path = write_file(tmp.path(), "note.md", "# Just a heading\nNo frontmatter here.\n");
+        let result = migrate_file_is_a_to_type(&path).unwrap();
+        assert!(!result, "file without frontmatter should not be migrated");
+    }
+
+    #[test]
+    fn test_migrate_file_skips_when_already_has_type() {
+        let tmp = tempdir().unwrap();
+        let path = write_file(tmp.path(), "note.md", "---\ntype: Person\nname: Alice\n---\n# Alice\n");
+        let result = migrate_file_is_a_to_type(&path).unwrap();
+        assert!(!result, "file already with type should not be migrated");
+    }
+
+    #[test]
+    fn test_migrate_file_skips_when_no_is_a_field() {
+        let tmp = tempdir().unwrap();
+        let path = write_file(tmp.path(), "note.md", "---\nname: Alice\ndate: 2024-01-01\n---\n# Alice\n");
+        let result = migrate_file_is_a_to_type(&path).unwrap();
+        assert!(!result);
+    }
+
+    // --- migrate_is_a_to_type (public function) ---
+
+    #[test]
+    fn test_migrate_vault_returns_count_of_migrated_files() {
+        let tmp = tempdir().unwrap();
+        write_file(tmp.path(), "note1.md", "---\nis_a: Person\nname: Alice\n---\n");
+        write_file(tmp.path(), "note2.md", "---\nis_a: Topic\nname: AI\n---\n");
+        write_file(tmp.path(), "note3.md", "---\ntype: Event\nname: Conf\n---\n");
+        let count = migrate_is_a_to_type(tmp.path().to_str().unwrap()).unwrap();
+        assert_eq!(count, 2, "should migrate exactly 2 files");
+    }
+
+    #[test]
+    fn test_migrate_vault_returns_error_for_nonexistent_path() {
+        let result = migrate_is_a_to_type("/tmp/this-path-does-not-exist-laputa-test");
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_migrate_vault_ignores_non_markdown_files() {
+        let tmp = tempdir().unwrap();
+        write_file(tmp.path(), "image.png", "not a markdown file");
+        write_file(tmp.path(), "data.json", "{\"is_a\": \"test\"}");
+        let count = migrate_is_a_to_type(tmp.path().to_str().unwrap()).unwrap();
+        assert_eq!(count, 0, "non-markdown files should be ignored");
+    }
+}
