@@ -150,7 +150,7 @@ const TYPE_NONE = '__none__'
 function ReadOnlyType({ isA, onNavigate }: { isA?: string | null; onNavigate?: (target: string) => void }) {
   if (!isA) return null
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between px-1.5">
       <span className="font-mono-overline shrink-0 text-muted-foreground">Type</span>
       {onNavigate ? (
         <button
@@ -178,7 +178,7 @@ function TypeSelector({ isA, availableTypes, onUpdateProperty, onNavigate }: {
     : availableTypes
 
   return (
-    <div className="flex items-center justify-between" data-testid="type-selector">
+    <div className="flex items-center justify-between px-1.5" data-testid="type-selector">
       <span className="font-mono-overline shrink-0 text-muted-foreground">Type</span>
       <Select value={currentValue} onValueChange={v => onUpdateProperty('type', v === TYPE_NONE ? null : v)}>
         <SelectTrigger
