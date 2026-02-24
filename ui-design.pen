@@ -6,7 +6,7 @@
       "id": "qHhaj",
       "x": 68,
       "y": 3385,
-      "name": "Laputa App — Full Layout (Light)",
+      "name": "Laputa App \u2014 Full Layout (Light)",
       "theme": {
         "Mode": "Light"
       },
@@ -2183,7 +2183,7 @@
                                   "id": "wqdMG",
                                   "name": "breadcrumbSep",
                                   "fill": "$--muted-foreground",
-                                  "content": "›",
+                                  "content": "\u203a",
                                   "fontFamily": "Inter",
                                   "fontSize": 12,
                                   "fontWeight": "normal"
@@ -2203,7 +2203,7 @@
                                   "id": "pvTmc",
                                   "name": "dotSep",
                                   "fill": "$--muted-foreground",
-                                  "content": "·",
+                                  "content": "\u00b7",
                                   "fontFamily": "Inter",
                                   "fontSize": 12,
                                   "fontWeight": "normal"
@@ -2871,7 +2871,7 @@
                                       "id": "AsiWz",
                                       "name": "histItem1Hash",
                                       "fill": "$--accent-blue",
-                                      "content": "a089f44 · feat: migrate to shadcn/ui",
+                                      "content": "a089f44 \u00b7 feat: migrate to shadcn/ui",
                                       "fontFamily": "Inter",
                                       "fontSize": 11,
                                       "fontWeight": "normal"
@@ -2914,7 +2914,7 @@
                                       "id": "0PWoX",
                                       "name": "histItem2Hash",
                                       "fill": "$--accent-blue",
-                                      "content": "5a4b4ac · feat: emoji favicon",
+                                      "content": "5a4b4ac \u00b7 feat: emoji favicon",
                                       "fontFamily": "Inter",
                                       "fontSize": 11,
                                       "fontWeight": "normal"
@@ -3153,7 +3153,7 @@
       "id": "mOf4J",
       "x": 0,
       "y": 4457,
-      "name": "Color Palette — shadcn/ui Theme (Light)",
+      "name": "Color Palette \u2014 shadcn/ui Theme (Light)",
       "theme": {
         "Mode": "Light"
       },
@@ -3168,7 +3168,7 @@
           "id": "rmJdn",
           "name": "cTitle",
           "fill": "$--foreground",
-          "content": "Color Palette — shadcn/ui Theme Variables (Light)",
+          "content": "Color Palette \u2014 shadcn/ui Theme Variables (Light)",
           "fontFamily": "Inter",
           "fontSize": 28,
           "fontWeight": "700",
@@ -3964,7 +3964,7 @@
               "id": "3UWKu",
               "name": "t1d",
               "fill": "$--muted-foreground",
-              "content": "32px / Bold / lh 1.2 — Editor H1",
+              "content": "32px / Bold / lh 1.2 \u2014 Editor H1",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -3995,7 +3995,7 @@
               "id": "cF55I",
               "name": "t2d",
               "fill": "$--muted-foreground",
-              "content": "24px / Semibold / lh 1.3 — Editor H2",
+              "content": "24px / Semibold / lh 1.3 \u2014 Editor H2",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4026,7 +4026,7 @@
               "id": "xUuNz",
               "name": "t3d",
               "fill": "$--muted-foreground",
-              "content": "17px / Bold / ls -0.3 — Sidebar header",
+              "content": "17px / Bold / ls -0.3 \u2014 Sidebar header",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4057,7 +4057,7 @@
               "id": "fKa3p",
               "name": "t4d",
               "fill": "$--muted-foreground",
-              "content": "16px / Regular / lh 1.6 — Editor paragraphs",
+              "content": "16px / Regular / lh 1.6 \u2014 Editor paragraphs",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4088,7 +4088,7 @@
               "id": "F6GQz",
               "name": "t5d",
               "fill": "$--muted-foreground",
-              "content": "14px / Medium / lh 1.43 — Buttons, NoteList header, Inspector labels",
+              "content": "14px / Medium / lh 1.43 \u2014 Buttons, NoteList header, Inspector labels",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4118,7 +4118,7 @@
               "id": "bvBBm",
               "name": "t6d",
               "fill": "$--muted-foreground",
-              "content": "13px / Medium — Sidebar nav items, filter items, search",
+              "content": "13px / Medium \u2014 Sidebar nav items, filter items, search",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4149,7 +4149,7 @@
               "id": "okws6",
               "name": "t7d",
               "fill": "$--muted-foreground",
-              "content": "11px / Semibold / ls 0.5 — Sidebar sections, type pills",
+              "content": "11px / Semibold / ls 0.5 \u2014 Sidebar sections, type pills",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4180,7 +4180,7 @@
               "id": "jFpLw",
               "name": "t8d",
               "fill": "$--muted-foreground",
-              "content": "11px / Semibold / ls 1.2 / IBM Plex Mono — Section labels, metadata tags",
+              "content": "11px / Semibold / ls 1.2 / IBM Plex Mono \u2014 Section labels, metadata tags",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4211,7 +4211,7 @@
               "id": "HQ3Df",
               "name": "t9d",
               "fill": "$--muted-foreground",
-              "content": "10px / Medium / ls 1.5 / IBM Plex Mono — Overlines, category labels, timestamps",
+              "content": "10px / Medium / ls 1.5 / IBM Plex Mono \u2014 Overlines, category labels, timestamps",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -4447,7 +4447,7 @@
                   "id": "HVQpq",
                   "name": "r1n",
                   "fill": "$--foreground",
-                  "content": "4px (sm) — chips",
+                  "content": "4px (sm) \u2014 chips",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "500"
@@ -4482,7 +4482,7 @@
                   "id": "rDLff",
                   "name": "r2n",
                   "fill": "$--foreground",
-                  "content": "6px (md) — buttons, inputs",
+                  "content": "6px (md) \u2014 buttons, inputs",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "500"
@@ -4517,7 +4517,7 @@
                   "id": "rZGXb",
                   "name": "r3n",
                   "fill": "$--foreground",
-                  "content": "8px (lg) — cards, dialogs",
+                  "content": "8px (lg) \u2014 cards, dialogs",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "500"
@@ -4552,7 +4552,7 @@
                   "id": "zw3RY",
                   "name": "r4n",
                   "fill": "$--foreground",
-                  "content": "16px — badges",
+                  "content": "16px \u2014 badges",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "500"
@@ -4620,7 +4620,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Button — 5 variants (Default, Secondary, Outline, Ghost, Destructive)",
+                  "content": "Button \u2014 5 variants (Default, Secondary, Outline, Ghost, Destructive)",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4632,7 +4632,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Input — Default text input with label group",
+                  "content": "Input \u2014 Default text input with label group",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4644,7 +4644,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Dialog — Modal overlay (CreateNote, Commit)",
+                  "content": "Dialog \u2014 Modal overlay (CreateNote, Commit)",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4656,7 +4656,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Badge — 4 variants (Default, Secondary, Outline, Destructive)",
+                  "content": "Badge \u2014 4 variants (Default, Secondary, Outline, Destructive)",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4696,7 +4696,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "DropdownMenu — Context / dropdown menus",
+                  "content": "DropdownMenu \u2014 Context / dropdown menus",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4708,7 +4708,7 @@
                   "fill": "$--foreground",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Tabs — Tab navigation component",
+                  "content": "Tabs \u2014 Tab navigation component",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -4736,7 +4736,7 @@
       "id": "trSB1",
       "x": 1600,
       "y": 3385,
-      "name": "Trash — Sidebar Filter",
+      "name": "Trash \u2014 Sidebar Filter",
       "theme": {
         "Mode": "Light"
       },
@@ -4953,7 +4953,7 @@
       "id": "trNL1",
       "x": 1600,
       "y": 3815,
-      "name": "Trash — Note List View",
+      "name": "Trash \u2014 Note List View",
       "theme": {
         "Mode": "Light"
       },
@@ -5151,7 +5151,7 @@
               "type": "text",
               "id": "trN2D",
               "fill": "$--destructive",
-              "content": "Trashed 35d ago — will be permanently deleted",
+              "content": "Trashed 35d ago \u2014 will be permanently deleted",
               "fontFamily": "Inter",
               "fontSize": 10,
               "fontWeight": "500"
@@ -5165,7 +5165,7 @@
       "id": "trRI1",
       "x": 1970,
       "y": 3385,
-      "name": "Trash — Relationship Indicator",
+      "name": "Trash \u2014 Relationship Indicator",
       "theme": {
         "Mode": "Light"
       },
@@ -5351,7 +5351,7 @@
       "id": "trW30",
       "x": 1970,
       "y": 3615,
-      "name": "Trash — 30-Day Auto-Delete Warning",
+      "name": "Trash \u2014 30-Day Auto-Delete Warning",
       "theme": {
         "Mode": "Light"
       },
@@ -5437,7 +5437,7 @@
     {
       "type": "frame",
       "id": "dt0",
-      "name": "Draggable Tabs — Default State",
+      "name": "Draggable Tabs \u2014 Default State",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -5691,7 +5691,7 @@
           "type": "text",
           "id": "dti",
           "name": "cursorNote",
-          "content": "cursor: grab → grabbing during drag",
+          "content": "cursor: grab \u2192 grabbing during drag",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "normal",
@@ -5706,7 +5706,7 @@
     {
       "type": "frame",
       "id": "dtj",
-      "name": "Draggable Tabs — Dragging (Tab Being Moved)",
+      "name": "Draggable Tabs \u2014 Dragging (Tab Being Moved)",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -5965,7 +5965,7 @@
     {
       "type": "frame",
       "id": "dt11",
-      "name": "Draggable Tabs — After Drop (Reordered)",
+      "name": "Draggable Tabs \u2014 After Drop (Reordered)",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -6234,7 +6234,7 @@
     {
       "type": "frame",
       "id": "dsg01a",
-      "name": "Sidebar — Drag Handles Visible",
+      "name": "Sidebar \u2014 Drag Handles Visible",
       "x": 68,
       "y": 6400,
       "width": 330,
@@ -6987,7 +6987,7 @@
     {
       "type": "frame",
       "id": "dsg02w",
-      "name": "Sidebar — Section Being Dragged",
+      "name": "Sidebar \u2014 Section Being Dragged",
       "x": 420,
       "y": 6400,
       "width": 330,
@@ -7727,7 +7727,7 @@
     {
       "type": "frame",
       "id": "dsg04j",
-      "name": "Sidebar — After Reorder (People Moved Up)",
+      "name": "Sidebar \u2014 After Reorder (People Moved Up)",
       "x": 772,
       "y": 6400,
       "width": 330,
@@ -7745,7 +7745,7 @@
           "type": "text",
           "id": "dsg04k",
           "name": "frame3Title",
-          "content": "After drop — People now second section",
+          "content": "After drop \u2014 People now second section",
           "fontFamily": "Inter",
           "fontSize": 14,
           "fontWeight": "600",
@@ -8482,7 +8482,7 @@
       "id": "csB01",
       "x": 0,
       "y": 7140,
-      "name": "Sections Header — Before (old design)",
+      "name": "Sections Header \u2014 Before (old design)",
       "theme": {
         "Mode": "Light"
       },
@@ -8502,7 +8502,7 @@
           "id": "csB02",
           "name": "frameLabel",
           "fill": "$--muted-foreground",
-          "content": "BEFORE — Old Design",
+          "content": "BEFORE \u2014 Old Design",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -8604,7 +8604,7 @@
       "id": "csA01",
       "x": 340,
       "y": 7140,
-      "name": "Sections Header — After (new design)",
+      "name": "Sections Header \u2014 After (new design)",
       "theme": {
         "Mode": "Light"
       },
@@ -8624,7 +8624,7 @@
           "id": "csA02",
           "name": "frameLabel",
           "fill": "$--muted-foreground",
-          "content": "AFTER — New Design",
+          "content": "AFTER \u2014 New Design",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -8727,7 +8727,7 @@
       "id": "archBtnNorm",
       "x": 68,
       "y": 5200,
-      "name": "Archive Notes — Breadcrumb button (normal note)",
+      "name": "Archive Notes \u2014 Breadcrumb button (normal note)",
       "theme": {
         "Mode": "Light"
       },
@@ -8771,7 +8771,7 @@
               "id": "anSep",
               "name": "breadcrumbSep",
               "fill": "$--muted-foreground",
-              "content": "›",
+              "content": "\u203a",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -8791,7 +8791,7 @@
               "id": "anDot",
               "name": "dotSep",
               "fill": "$--muted-foreground",
-              "content": "·",
+              "content": "\u00b7",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -8906,7 +8906,7 @@
       "id": "archBtnArc",
       "x": 68,
       "y": 5300,
-      "name": "Archive Notes — Breadcrumb button (archived note, shows Unarchive)",
+      "name": "Archive Notes \u2014 Breadcrumb button (archived note, shows Unarchive)",
       "theme": {
         "Mode": "Light"
       },
@@ -8950,7 +8950,7 @@
               "id": "auSep",
               "name": "breadcrumbSep",
               "fill": "$--muted-foreground",
-              "content": "›",
+              "content": "\u203a",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -8970,7 +8970,7 @@
               "id": "auDot",
               "name": "dotSep",
               "fill": "$--muted-foreground",
-              "content": "·",
+              "content": "\u00b7",
               "fontFamily": "Inter",
               "fontSize": 12,
               "fontWeight": "normal"
@@ -9110,7 +9110,7 @@
       "id": "ghCL1",
       "x": 0,
       "y": 7320,
-      "name": "Git History — Commit List",
+      "name": "Git History \u2014 Commit List",
       "width": 300,
       "height": "fit_content(600)",
       "fill": "$--background",
@@ -9328,7 +9328,7 @@
       "id": "ghDO1",
       "x": 380,
       "y": 7320,
-      "name": "Git History — Diff Open",
+      "name": "Git History \u2014 Diff Open",
       "width": 600,
       "height": "fit_content(500)",
       "fill": "$--background",
@@ -9606,7 +9606,7 @@
     {
       "type": "frame",
       "id": "rnt0",
-      "name": "Rename Tab — Normal tab state",
+      "name": "Rename Tab \u2014 Normal tab state",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -9778,7 +9778,7 @@
           "type": "text",
           "id": "rntc",
           "name": "interactionNote",
-          "content": "Double-click tab title → enters edit mode",
+          "content": "Double-click tab title \u2192 enters edit mode",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "normal",
@@ -9793,7 +9793,7 @@
     {
       "type": "frame",
       "id": "rne0",
-      "name": "Rename Tab — Double-clicked (editing mode)",
+      "name": "Rename Tab \u2014 Double-clicked (editing mode)",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -9986,7 +9986,7 @@
           "type": "text",
           "id": "rned",
           "name": "interactionNote",
-          "content": "Enter → save & rename file + update wiki links | Escape → cancel | Blur → save",
+          "content": "Enter \u2192 save & rename file + update wiki links | Escape \u2192 cancel | Blur \u2192 save",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "normal",
@@ -10001,7 +10001,7 @@
     {
       "type": "frame",
       "id": "rns0",
-      "name": "Rename Tab — Saved (updated name)",
+      "name": "Rename Tab \u2014 Saved (updated name)",
       "width": 800,
       "height": 120,
       "layout": "vertical",
@@ -10173,7 +10173,7 @@
           "type": "text",
           "id": "rnsc",
           "name": "interactionNote",
-          "content": "File: weekly-review.md → sprint-retrospective.md | [[Weekly Review]] → [[Sprint Retrospective]] in all notes",
+          "content": "File: weekly-review.md \u2192 sprint-retrospective.md | [[Weekly Review]] \u2192 [[Sprint Retrospective]] in all notes",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "normal",
@@ -10190,7 +10190,7 @@
       "id": "mb001",
       "x": 0,
       "y": 0,
-      "name": "macOS Border — Before (no border)",
+      "name": "macOS Border \u2014 Before (no border)",
       "theme": {
         "Mode": "Light"
       },
@@ -10290,7 +10290,7 @@
       "id": "mb011",
       "x": 440,
       "y": 0,
-      "name": "macOS Border — After (with border)",
+      "name": "macOS Border \u2014 After (with border)",
       "theme": {
         "Mode": "Light"
       },
@@ -10397,7 +10397,7 @@
       "id": "iogBH",
       "x": 5500,
       "y": 100,
-      "name": "Settings Panel — Modal",
+      "name": "Settings Panel \u2014 Modal",
       "width": 520,
       "fill": "$--background",
       "cornerRadius": 12,
@@ -10521,7 +10521,7 @@
                       "id": "NjLRf",
                       "name": "anthropicValue",
                       "fill": "$--foreground",
-                      "content": "sk-ant-•••••••••••••k4Rm",
+                      "content": "sk-ant-\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022k4Rm",
                       "fontFamily": "Inter",
                       "fontSize": 13,
                       "fontWeight": "normal"
@@ -10714,7 +10714,7 @@
       "id": "srtDD",
       "x": 0,
       "y": 0,
-      "name": "Sort Dropdown — Direction Arrows",
+      "name": "Sort Dropdown \u2014 Direction Arrows",
       "clip": true,
       "width": 260,
       "height": 280,
@@ -10792,7 +10792,7 @@
                   "type": "text",
                   "id": "srtU1",
                   "name": "arrow-up-active",
-                  "content": "↑",
+                  "content": "\u2191",
                   "fontSize": 13,
                   "fontWeight": 700,
                   "fill": "$--accent-blue"
@@ -10801,7 +10801,7 @@
                   "type": "text",
                   "id": "srtD1",
                   "name": "arrow-down",
-                  "content": "↓",
+                  "content": "\u2193",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10844,7 +10844,7 @@
                   "type": "text",
                   "id": "srtU2",
                   "name": "arrow-up",
-                  "content": "↑",
+                  "content": "\u2191",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10853,7 +10853,7 @@
                   "type": "text",
                   "id": "srtD2",
                   "name": "arrow-down",
-                  "content": "↓",
+                  "content": "\u2193",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10896,7 +10896,7 @@
                   "type": "text",
                   "id": "srtU3",
                   "name": "arrow-up",
-                  "content": "↑",
+                  "content": "\u2191",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10905,7 +10905,7 @@
                   "type": "text",
                   "id": "srtD3",
                   "name": "arrow-down",
-                  "content": "↓",
+                  "content": "\u2193",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10948,7 +10948,7 @@
                   "type": "text",
                   "id": "srtU4",
                   "name": "arrow-up",
-                  "content": "↑",
+                  "content": "\u2191",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10957,7 +10957,7 @@
                   "type": "text",
                   "id": "srtD4",
                   "name": "arrow-down",
-                  "content": "↓",
+                  "content": "\u2193",
                   "fontSize": 13,
                   "fontWeight": 400,
                   "fill": "$--muted-foreground"
@@ -10988,7 +10988,7 @@
               "type": "text",
               "id": "srtAT",
               "name": "annotation-text",
-              "content": "Click ↑↓ to toggle direction. Blue = active.",
+              "content": "Click \u2191\u2193 to toggle direction. Blue = active.",
               "fontSize": 11,
               "fill": "$--muted-foreground",
               "fontFamily": "$--font-primary"
@@ -11002,7 +11002,7 @@
       "id": "srtBN",
       "x": 300,
       "y": 0,
-      "name": "Sort Button — With Direction Indicator",
+      "name": "Sort Button \u2014 With Direction Indicator",
       "clip": true,
       "width": 400,
       "height": 200,
@@ -11065,7 +11065,7 @@
                   "type": "text",
                   "id": "srtBA",
                   "name": "directionArrow",
-                  "content": "↓",
+                  "content": "\u2193",
                   "fontSize": 12,
                   "fontWeight": 600,
                   "fill": "$--accent-blue"
@@ -11106,7 +11106,7 @@
                   "type": "text",
                   "id": "srtNT1",
                   "name": "noteTitle1",
-                  "content": "Meeting Notes — Feb 22",
+                  "content": "Meeting Notes \u2014 Feb 22",
                   "fontSize": 13,
                   "fill": "$--foreground",
                   "fontFamily": "$--font-primary",
@@ -11219,7 +11219,7 @@
       "id": "ghv01",
       "x": 68,
       "y": 0,
-      "name": "GitHub Vault — Modal empty state",
+      "name": "GitHub Vault \u2014 Modal empty state",
       "clip": true,
       "width": 560,
       "height": 480,
@@ -11506,7 +11506,7 @@
       "id": "ghv02",
       "x": 700,
       "y": 0,
-      "name": "GitHub Vault — Clone repo list",
+      "name": "GitHub Vault \u2014 Clone repo list",
       "clip": true,
       "width": 560,
       "height": 540,
@@ -11749,7 +11749,7 @@
                     {
                       "type": "text",
                       "id": "ghv02-repo1-desc",
-                      "content": "Personal knowledge vault — markdown + YAML frontmatter",
+                      "content": "Personal knowledge vault \u2014 markdown + YAML frontmatter",
                       "fontSize": 12,
                       "fill": "$--muted-foreground"
                     }
@@ -11814,7 +11814,7 @@
                     {
                       "type": "text",
                       "id": "ghv02-repo2-desc",
-                      "content": "Laputa desktop app — Tauri + React + CodeMirror 6",
+                      "content": "Laputa desktop app \u2014 Tauri + React + CodeMirror 6",
                       "fontSize": 12,
                       "fill": "$--muted-foreground"
                     }
@@ -12001,7 +12001,7 @@
       "id": "ghv03",
       "x": 68,
       "y": 600,
-      "name": "GitHub Vault — Create new repo",
+      "name": "GitHub Vault \u2014 Create new repo",
       "clip": true,
       "width": 560,
       "height": 440,
@@ -12426,7 +12426,7 @@
       "id": "ghv04",
       "x": 700,
       "y": 600,
-      "name": "GitHub Vault — Clone in progress",
+      "name": "GitHub Vault \u2014 Clone in progress",
       "clip": true,
       "width": 560,
       "height": 320,
@@ -12588,7 +12588,7 @@
     {
       "type": "frame",
       "id": "SC_all",
-      "name": "Sidebar Collapse — All panels visible",
+      "name": "Sidebar Collapse \u2014 All panels visible",
       "x": 68,
       "y": 8000,
       "clip": true,
@@ -13078,7 +13078,7 @@
     {
       "type": "frame",
       "id": "SC_nosb",
-      "name": "Sidebar Collapse — Sidebar collapsed",
+      "name": "Sidebar Collapse \u2014 Sidebar collapsed",
       "x": 68,
       "y": 9000,
       "clip": true,
@@ -13390,7 +13390,7 @@
     {
       "type": "frame",
       "id": "SC_edonly",
-      "name": "Sidebar Collapse — Editor only",
+      "name": "Sidebar Collapse \u2014 Editor only",
       "x": 68,
       "y": 10000,
       "clip": true,
@@ -13577,7 +13577,7 @@
     {
       "type": "frame",
       "id": "SC_ednl",
-      "name": "Sidebar Collapse — Editor + notes",
+      "name": "Sidebar Collapse \u2014 Editor + notes",
       "x": 68,
       "y": 11000,
       "clip": true,
@@ -13889,7 +13889,7 @@
     {
       "type": "frame",
       "id": "pi01",
-      "name": "Properties Inspector — Editable Properties",
+      "name": "Properties Inspector \u2014 Editable Properties",
       "width": 320,
       "height": 520,
       "layout": "vertical",
@@ -14020,7 +14020,7 @@
             {
               "type": "frame",
               "id": "pi12",
-              "name": "Editable Row — Status (hover state)",
+              "name": "Editable Row \u2014 Status (hover state)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14069,7 +14069,7 @@
             {
               "type": "frame",
               "id": "pi16",
-              "name": "Editable Row — Owner (normal state)",
+              "name": "Editable Row \u2014 Owner (normal state)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14103,7 +14103,7 @@
             {
               "type": "frame",
               "id": "pi19",
-              "name": "Editable Row — Tags (normal state)",
+              "name": "Editable Row \u2014 Tags (normal state)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14213,7 +14213,7 @@
         {
           "type": "frame",
           "id": "pi29",
-          "name": "Info Section — Read-only Metadata",
+          "name": "Info Section \u2014 Read-only Metadata",
           "width": "fill_container",
           "layout": "vertical",
           "padding": [
@@ -14241,7 +14241,7 @@
             {
               "type": "frame",
               "id": "pi31",
-              "name": "Info Row — Modified (read-only, muted)",
+              "name": "Info Row \u2014 Modified (read-only, muted)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14270,7 +14270,7 @@
             {
               "type": "frame",
               "id": "pi34",
-              "name": "Info Row — Created (read-only, muted)",
+              "name": "Info Row \u2014 Created (read-only, muted)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14299,7 +14299,7 @@
             {
               "type": "frame",
               "id": "pi37",
-              "name": "Info Row — Words (read-only, muted)",
+              "name": "Info Row \u2014 Words (read-only, muted)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14328,7 +14328,7 @@
             {
               "type": "frame",
               "id": "pi40",
-              "name": "Info Row — File Size (read-only, muted)",
+              "name": "Info Row \u2014 File Size (read-only, muted)",
               "width": "fill_container",
               "justifyContent": "space-between",
               "alignItems": "center",
@@ -14361,7 +14361,7 @@
     {
       "type": "frame",
       "id": "pi50",
-      "name": "Properties Inspector — Info Section Detail",
+      "name": "Properties Inspector \u2014 Info Section Detail",
       "width": 320,
       "height": 400,
       "layout": "vertical",
@@ -14417,7 +14417,7 @@
                 {
                   "type": "frame",
                   "id": "pi55",
-                  "name": "Row — cursor:pointer, hover:bg-muted, rounded",
+                  "name": "Row \u2014 cursor:pointer, hover:bg-muted, rounded",
                   "width": "fill_container",
                   "justifyContent": "space-between",
                   "alignItems": "center",
@@ -14472,7 +14472,7 @@
                 {
                   "type": "frame",
                   "id": "pi60",
-                  "name": "Row — cursor:default, no hover, muted color",
+                  "name": "Row \u2014 cursor:default, no hover, muted color",
                   "width": "fill_container",
                   "justifyContent": "space-between",
                   "alignItems": "center",
@@ -14513,7 +14513,7 @@
       "id": "rbF01",
       "x": 0,
       "y": 0,
-      "name": "Inspector — Referenced By (Multiple)",
+      "name": "Inspector \u2014 Referenced By (Multiple)",
       "theme": {
         "Mode": "Light"
       },
@@ -14665,7 +14665,7 @@
             {
               "type": "frame",
               "id": "rbF01refG1",
-              "name": "refByGroup — via Belongs to",
+              "name": "refByGroup \u2014 via Belongs to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -14783,7 +14783,7 @@
             {
               "type": "frame",
               "id": "rbF01refG2",
-              "name": "refByGroup — via Related to",
+              "name": "refByGroup \u2014 via Related to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -14901,7 +14901,7 @@
       "id": "rbF02",
       "x": 360,
       "y": 0,
-      "name": "Inspector — Referenced By (Empty)",
+      "name": "Inspector \u2014 Referenced By (Empty)",
       "theme": {
         "Mode": "Light"
       },
@@ -15037,7 +15037,7 @@
       "id": "rbF03",
       "x": 720,
       "y": 0,
-      "name": "Inspector — Referenced By (Many Backlinks)",
+      "name": "Inspector \u2014 Referenced By (Many Backlinks)",
       "theme": {
         "Mode": "Light"
       },
@@ -15107,7 +15107,7 @@
             {
               "type": "frame",
               "id": "rbF03relG1",
-              "name": "relGroup — Has",
+              "name": "relGroup \u2014 Has",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -15229,7 +15229,7 @@
             {
               "type": "frame",
               "id": "rbF03refG1",
-              "name": "refByGroup — via Belongs to",
+              "name": "refByGroup \u2014 via Belongs to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -15376,7 +15376,7 @@
             {
               "type": "frame",
               "id": "rbF03refG2",
-              "name": "refByGroup — via Related to",
+              "name": "refByGroup \u2014 via Related to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -15459,7 +15459,7 @@
             {
               "type": "frame",
               "id": "rbF03refG3",
-              "name": "refByGroup — via Topics",
+              "name": "refByGroup \u2014 via Topics",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -15610,7 +15610,7 @@
       "id": "wlc01",
       "x": 0,
       "y": 0,
-      "name": "Wikilink Colors — Editor View (Light)",
+      "name": "Wikilink Colors \u2014 Editor View (Light)",
       "theme": {
         "Mode": "Light"
       },
@@ -15659,7 +15659,7 @@
             {
               "type": "text",
               "id": "wlc10b",
-              "content": "Stock Screener — EMA200 Wick Bounce",
+              "content": "Stock Screener \u2014 EMA200 Wick Bounce",
               "fontSize": 15,
               "fill": "$--accent-red",
               "textDecoration": "underline"
@@ -15853,7 +15853,7 @@
       "id": "wlc20",
       "x": 800,
       "y": 0,
-      "name": "Wikilink Colors — Broken Link State",
+      "name": "Wikilink Colors \u2014 Broken Link State",
       "theme": {
         "Mode": "Light"
       },
@@ -15924,7 +15924,7 @@
       "id": "vl001",
       "x": 0,
       "y": 0,
-      "name": "Virtual List — Default State (9000+ notes)",
+      "name": "Virtual List \u2014 Default State (9000+ notes)",
       "theme": {
         "Mode": "Light"
       },
@@ -16274,7 +16274,7 @@
       "id": "vl100",
       "x": 340,
       "y": 0,
-      "name": "Virtual List — Scrolled Mid-list",
+      "name": "Virtual List \u2014 Scrolled Mid-list",
       "theme": {
         "Mode": "Light"
       },
@@ -16317,7 +16317,7 @@
         {
           "type": "frame",
           "id": "vl103",
-          "name": "Virtualized Viewport — items 4500-4512",
+          "name": "Virtualized Viewport \u2014 items 4500-4512",
           "width": "fill_container",
           "height": "fill_container",
           "fill": "$--card",
@@ -16525,7 +16525,7 @@
       "id": "vl200",
       "x": 680,
       "y": 0,
-      "name": "Virtual List — Search Filtering",
+      "name": "Virtual List \u2014 Search Filtering",
       "theme": {
         "Mode": "Light"
       },
@@ -16769,7 +16769,7 @@
       "id": "vl300",
       "x": 1020,
       "y": 0,
-      "name": "Virtual List — Empty Search Result",
+      "name": "Virtual List \u2014 Empty Search Result",
       "theme": {
         "Mode": "Light"
       },
@@ -16891,7 +16891,7 @@
       "id": "mni01",
       "x": 0,
       "y": 0,
-      "name": "Modified Note Indicator — NoteList States",
+      "name": "Modified Note Indicator \u2014 NoteList States",
       "width": 340,
       "height": "fit_content(600)",
       "fill": "$--card",
@@ -16901,7 +16901,7 @@
           "type": "text",
           "id": "mni01t",
           "fill": "$--muted-foreground",
-          "content": "NoteList — Modified vs Clean",
+          "content": "NoteList \u2014 Modified vs Clean",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -16916,7 +16916,7 @@
         {
           "type": "frame",
           "id": "mni02",
-          "name": "Note Item — Modified",
+          "name": "Note Item \u2014 Modified",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -17002,7 +17002,7 @@
         {
           "type": "frame",
           "id": "mni03",
-          "name": "Note Item — Clean (no indicator)",
+          "name": "Note Item \u2014 Clean (no indicator)",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -17072,7 +17072,7 @@
         {
           "type": "frame",
           "id": "mni04",
-          "name": "Note Item — Added (new file)",
+          "name": "Note Item \u2014 Added (new file)",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -17162,7 +17162,7 @@
       "id": "mni10",
       "x": 380,
       "y": 0,
-      "name": "Modified Note Indicator — TabBar States",
+      "name": "Modified Note Indicator \u2014 TabBar States",
       "width": 800,
       "height": 120,
       "fill": "$--sidebar",
@@ -17172,7 +17172,7 @@
           "type": "text",
           "id": "mni10t",
           "fill": "$--muted-foreground",
-          "content": "TabBar — Modified Dot on Dirty Tabs",
+          "content": "TabBar \u2014 Modified Dot on Dirty Tabs",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -17202,7 +17202,7 @@
             {
               "type": "frame",
               "id": "mni11a",
-              "name": "Tab Active — Modified",
+              "name": "Tab Active \u2014 Modified",
               "height": "fill_container",
               "fill": "$--background",
               "stroke": {
@@ -17250,7 +17250,7 @@
             {
               "type": "frame",
               "id": "mni11b",
-              "name": "Tab Inactive — Clean",
+              "name": "Tab Inactive \u2014 Clean",
               "height": "fill_container",
               "stroke": {
                 "align": "inside",
@@ -17291,7 +17291,7 @@
             {
               "type": "frame",
               "id": "mni11c",
-              "name": "Tab Inactive — Modified",
+              "name": "Tab Inactive \u2014 Modified",
               "height": "fill_container",
               "stroke": {
                 "align": "inside",
@@ -17392,7 +17392,7 @@
       "id": "mni20",
       "x": 0,
       "y": 400,
-      "name": "Modified Note Indicator — StatusBar Pending Count",
+      "name": "Modified Note Indicator \u2014 StatusBar Pending Count",
       "width": 800,
       "height": 80,
       "fill": "$--background",
@@ -17402,7 +17402,7 @@
           "type": "text",
           "id": "mni20t",
           "fill": "$--muted-foreground",
-          "content": "StatusBar — Pending Changes Counter",
+          "content": "StatusBar \u2014 Pending Changes Counter",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -17620,7 +17620,7 @@
       "id": "reF01",
       "x": 0,
       "y": 0,
-      "name": "Relations Edit — Default (hover to reveal remove)",
+      "name": "Relations Edit \u2014 Default (hover to reveal remove)",
       "theme": {
         "Mode": "Light"
       },
@@ -17690,7 +17690,7 @@
             {
               "type": "frame",
               "id": "reF01relG1",
-              "name": "relGroup — Belongs to",
+              "name": "relGroup \u2014 Belongs to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -17793,7 +17793,7 @@
             {
               "type": "frame",
               "id": "reF01relG2",
-              "name": "relGroup — Related to",
+              "name": "relGroup \u2014 Related to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -17957,7 +17957,7 @@
       "id": "reF02",
       "x": 360,
       "y": 0,
-      "name": "Relations Edit — Hover on pill (X remove visible)",
+      "name": "Relations Edit \u2014 Hover on pill (X remove visible)",
       "theme": {
         "Mode": "Light"
       },
@@ -18027,7 +18027,7 @@
             {
               "type": "frame",
               "id": "reF02relG1",
-              "name": "relGroup — Belongs to",
+              "name": "relGroup \u2014 Belongs to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -18043,7 +18043,7 @@
                 {
                   "type": "frame",
                   "id": "reF02relG1B1",
-                  "name": "relPill1 — hovered",
+                  "name": "relPill1 \u2014 hovered",
                   "width": "fill_container",
                   "fill": "$--accent-blue-light",
                   "cornerRadius": 6,
@@ -18059,7 +18059,7 @@
                     "fill": "$--accent-blue",
                     "opacity": 0.3
                   },
-                  "annotation": "pill is hovered — X button fully visible",
+                  "annotation": "pill is hovered \u2014 X button fully visible",
                   "children": [
                     {
                       "type": "text",
@@ -18086,7 +18086,7 @@
                           "iconFontName": "x-circle",
                           "iconFontFamily": "phosphor",
                           "fill": "$--accent-blue",
-                          "annotation": "X remove — fully visible on hover"
+                          "annotation": "X remove \u2014 fully visible on hover"
                         },
                         {
                           "type": "icon_font",
@@ -18137,7 +18137,7 @@
             {
               "type": "frame",
               "id": "reF02relG2",
-              "name": "relGroup — Related to",
+              "name": "relGroup \u2014 Related to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -18189,7 +18189,7 @@
                           "iconFontName": "x-circle",
                           "iconFontFamily": "phosphor",
                           "fill": "$--accent-purple",
-                          "annotation": "hidden — not hovered"
+                          "annotation": "hidden \u2014 not hovered"
                         },
                         {
                           "type": "icon_font",
@@ -18246,7 +18246,7 @@
       "id": "reF03",
       "x": 720,
       "y": 0,
-      "name": "Relations Edit — Add expanded with autocomplete",
+      "name": "Relations Edit \u2014 Add expanded with autocomplete",
       "theme": {
         "Mode": "Light"
       },
@@ -18316,7 +18316,7 @@
             {
               "type": "frame",
               "id": "reF03relG1",
-              "name": "relGroup — Belongs to (add expanded)",
+              "name": "relGroup \u2014 Belongs to (add expanded)",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -18449,7 +18449,7 @@
                         {
                           "type": "frame",
                           "id": "reF03relG1DropI1",
-                          "name": "suggestion1 — highlighted",
+                          "name": "suggestion1 \u2014 highlighted",
                           "width": "fill_container",
                           "fill": "$--accent",
                           "cornerRadius": 4,
@@ -18582,7 +18582,7 @@
             {
               "type": "frame",
               "id": "reF03relG2",
-              "name": "relGroup — Related to",
+              "name": "relGroup \u2014 Related to",
               "width": "fill_container",
               "layout": "vertical",
               "gap": 4,
@@ -18680,7 +18680,7 @@
       "id": "urlDefault",
       "x": 0,
       "y": 0,
-      "name": "URL Property — default state (no hover)",
+      "name": "URL Property \u2014 default state (no hover)",
       "width": 320,
       "height": 40,
       "fill": "#ffffff",
@@ -18740,7 +18740,7 @@
       "id": "urlHover",
       "x": 0,
       "y": 60,
-      "name": "URL Property — hover state (underline + pointer cursor)",
+      "name": "URL Property \u2014 hover state (underline + pointer cursor)",
       "width": 320,
       "height": 40,
       "fill": "#f9fafb",
@@ -18801,7 +18801,7 @@
       "id": "urlEdit",
       "x": 0,
       "y": 120,
-      "name": "URL Property — edit mode (double-click or edit icon)",
+      "name": "URL Property \u2014 edit mode (double-click or edit icon)",
       "width": 320,
       "height": 40,
       "fill": "#ffffff",
@@ -18860,7 +18860,7 @@
       "id": "vc001",
       "x": 0,
       "y": 0,
-      "name": "Changes — sidebar section with pending notes",
+      "name": "Changes \u2014 sidebar section with pending notes",
       "clip": true,
       "width": 550,
       "height": 500,
@@ -19105,7 +19105,7 @@
                 {
                   "type": "text",
                   "id": "vc021",
-                  "text": "This paragraph has bold text, italic text…",
+                  "text": "This paragraph has bold text, italic text\u2026",
                   "fontSize": 12,
                   "fill": "$--muted-foreground"
                 }
@@ -19158,7 +19158,7 @@
                 {
                   "type": "text",
                   "id": "vc026",
-                  "text": "Lookalike audiences from newsletter subscribers…",
+                  "text": "Lookalike audiences from newsletter subscribers\u2026",
                   "fontSize": 12,
                   "fill": "$--muted-foreground"
                 }
@@ -19204,7 +19204,7 @@
                 {
                   "type": "text",
                   "id": "vc031",
-                  "text": "AI agents are autonomous systems that can plan…",
+                  "text": "AI agents are autonomous systems that can plan\u2026",
                   "fontSize": 12,
                   "fill": "$--muted-foreground"
                 }
@@ -19219,7 +19219,7 @@
       "id": "vc100",
       "x": 600,
       "y": 0,
-      "name": "Changes — empty state (0 pending)",
+      "name": "Changes \u2014 empty state (0 pending)",
       "clip": true,
       "width": 550,
       "height": 400,
@@ -19337,7 +19337,7 @@
                 {
                   "type": "text",
                   "id": "vc110",
-                  "text": "← No \"Changes\" item when 0 pending",
+                  "text": "\u2190 No \"Changes\" item when 0 pending",
                   "fontSize": 11,
                   "fill": "$--muted-foreground",
                   "fontStyle": "italic"
@@ -19429,7 +19429,7 @@
                     {
                       "type": "text",
                       "id": "vc117",
-                      "text": "No orange dot — all committed",
+                      "text": "No orange dot \u2014 all committed",
                       "fontSize": 12,
                       "fill": "$--muted-foreground"
                     }
@@ -19446,7 +19446,7 @@
       "id": "vc200",
       "x": 0,
       "y": 560,
-      "name": "Changes — real-time update (note disappears after save)",
+      "name": "Changes \u2014 real-time update (note disappears after save)",
       "clip": true,
       "width": 800,
       "height": 300,
@@ -19567,7 +19567,7 @@
                 {
                   "type": "text",
                   "id": "vc209",
-                  "text": "Facebook Ads Strategy ← saving…",
+                  "text": "Facebook Ads Strategy \u2190 saving\u2026",
                   "fontSize": 12,
                   "fontWeight": 500,
                   "fill": "$--accent-orange"
@@ -19740,7 +19740,7 @@
       "id": "dp01",
       "x": 0,
       "y": 0,
-      "name": "NoteStatus — NoteList (New vs Modified)",
+      "name": "NoteStatus \u2014 NoteList (New vs Modified)",
       "width": 340,
       "height": "fit_content(600)",
       "fill": "$--card",
@@ -19750,7 +19750,7 @@
           "type": "text",
           "id": "dp01t",
           "fill": "$--muted-foreground",
-          "content": "NoteList — New vs Modified vs Clean",
+          "content": "NoteList \u2014 New vs Modified vs Clean",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -19765,7 +19765,7 @@
         {
           "type": "frame",
           "id": "dp02",
-          "name": "Note Item — New (green dot)",
+          "name": "Note Item \u2014 New (green dot)",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -19838,7 +19838,7 @@
         {
           "type": "frame",
           "id": "dp03",
-          "name": "Note Item — Modified (orange dot)",
+          "name": "Note Item \u2014 Modified (orange dot)",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -19911,7 +19911,7 @@
         {
           "type": "frame",
           "id": "dp04",
-          "name": "Note Item — Clean (no dot)",
+          "name": "Note Item \u2014 Clean (no dot)",
           "width": "fill_container",
           "stroke": {
             "align": "inside",
@@ -19966,7 +19966,7 @@
               "type": "text",
               "id": "dp04s",
               "fill": "$--muted-foreground",
-              "content": "No indicator — clean, committed note",
+              "content": "No indicator \u2014 clean, committed note",
               "fontFamily": "Inter",
               "fontSize": 12,
               "width": "fill_container"
@@ -19980,7 +19980,7 @@
       "id": "dp10",
       "x": 360,
       "y": 0,
-      "name": "NoteStatus — TabBar (New vs Modified)",
+      "name": "NoteStatus \u2014 TabBar (New vs Modified)",
       "width": 600,
       "height": "fit_content(200)",
       "fill": "$--sidebar",
@@ -19990,7 +19990,7 @@
           "type": "text",
           "id": "dp10t",
           "fill": "$--muted-foreground",
-          "content": "TabBar — Green vs Orange Status Dots",
+          "content": "TabBar \u2014 Green vs Orange Status Dots",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -20051,7 +20051,7 @@
                   "type": "text",
                   "id": "dp11ax",
                   "fill": "$--muted-foreground",
-                  "content": "×",
+                  "content": "\u00d7",
                   "fontFamily": "Inter",
                   "fontSize": 14
                 }
@@ -20134,7 +20134,7 @@
       "id": "dp20",
       "x": 360,
       "y": 220,
-      "name": "NoteStatus — BreadcrumbBar (N vs M badge)",
+      "name": "NoteStatus \u2014 BreadcrumbBar (N vs M badge)",
       "width": 600,
       "height": "fit_content(200)",
       "fill": "$--background",
@@ -20144,7 +20144,7 @@
           "type": "text",
           "id": "dp20t",
           "fill": "$--muted-foreground",
-          "content": "BreadcrumbBar — Status Badge",
+          "content": "BreadcrumbBar \u2014 Status Badge",
           "fontFamily": "Inter",
           "fontSize": 10,
           "fontWeight": "600",
@@ -20159,7 +20159,7 @@
         {
           "type": "frame",
           "id": "dp21",
-          "name": "Breadcrumb — New Note",
+          "name": "Breadcrumb \u2014 New Note",
           "width": "fill_container",
           "padding": [
             8,
@@ -20220,7 +20220,7 @@
         {
           "type": "frame",
           "id": "dp22",
-          "name": "Breadcrumb — Modified Note",
+          "name": "Breadcrumb \u2014 Modified Note",
           "width": "fill_container",
           "padding": [
             8,
@@ -20292,7 +20292,7 @@
       "id": "dp30",
       "x": 0,
       "y": 640,
-      "name": "NoteStatus — State Transitions",
+      "name": "NoteStatus \u2014 State Transitions",
       "width": 960,
       "height": "fit_content(300)",
       "fill": "$--card",
@@ -20341,7 +20341,7 @@
                   "type": "text",
                   "id": "dp31at",
                   "fill": "#ffffff",
-                  "content": "Create Note → Green Dot",
+                  "content": "Create Note \u2192 Green Dot",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -20352,7 +20352,7 @@
               "type": "text",
               "id": "dp31arr1",
               "fill": "$--muted-foreground",
-              "content": "→",
+              "content": "\u2192",
               "fontFamily": "Inter",
               "fontSize": 20,
               "fontWeight": "700"
@@ -20372,7 +20372,7 @@
                   "type": "text",
                   "id": "dp31bt",
                   "fill": "$--foreground",
-                  "content": "Cmd+S → Dot Removed",
+                  "content": "Cmd+S \u2192 Dot Removed",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -20383,7 +20383,7 @@
               "type": "text",
               "id": "dp31arr2",
               "fill": "$--muted-foreground",
-              "content": "→",
+              "content": "\u2192",
               "fontFamily": "Inter",
               "fontSize": 20,
               "fontWeight": "700"
@@ -20403,7 +20403,7 @@
                   "type": "text",
                   "id": "dp31ct",
                   "fill": "#ffffff",
-                  "content": "Edit Existing → Orange Dot",
+                  "content": "Edit Existing \u2192 Orange Dot",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -20414,7 +20414,7 @@
               "type": "text",
               "id": "dp31arr3",
               "fill": "$--muted-foreground",
-              "content": "→",
+              "content": "\u2192",
               "fontFamily": "Inter",
               "fontSize": 20,
               "fontWeight": "700"
@@ -20434,7 +20434,7 @@
                   "type": "text",
                   "id": "dp31dt",
                   "fill": "$--foreground",
-                  "content": "Git Commit → Dot Removed",
+                  "content": "Git Commit \u2192 Dot Removed",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -20444,6 +20444,656 @@
           ]
         }
       ]
+    },
+    {
+      "children": [
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "\ud83d\udd0d",
+              "fill": "#8888AA",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "id": "PjHq0",
+              "name": "searchIcon",
+              "type": "text"
+            },
+            {
+              "content": "Search in all notes...",
+              "fill": "#666680",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "id": "rkrbE",
+              "name": "searchInput",
+              "textGrowth": "fixed-width",
+              "type": "text",
+              "width": "fill_container"
+            },
+            {
+              "alignItems": "center",
+              "children": [
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Keyword",
+                      "fill": "#CCCCDD",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "R5D8g",
+                      "name": "kwText",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#4C4C6D",
+                  "id": "mcpPa",
+                  "name": "kwBadge",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Semantic",
+                      "fill": "#666680",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "NJYVj",
+                      "name": "semText",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#33334D",
+                  "id": "W1DvY",
+                  "name": "semBadge",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                }
+              ],
+              "gap": 4,
+              "id": "1az05",
+              "name": "Mode Toggle",
+              "type": "frame"
+            }
+          ],
+          "cornerRadius": 8,
+          "fill": "#2A2A3C",
+          "gap": 10,
+          "height": 48,
+          "id": "x1pHS",
+          "name": "Search Bar",
+          "padding": [
+            0,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        },
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "Search across all note contents \u2014 Cmd+Shift+F",
+              "fill": "#555570",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal",
+              "id": "6O2iX",
+              "name": "hintText",
+              "type": "text"
+            }
+          ],
+          "id": "73imz",
+          "justifyContent": "center",
+          "name": "shortcutHint",
+          "padding": [
+            24,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        }
+      ],
+      "cornerRadius": 12,
+      "fill": "#1E1E2E",
+      "id": "3aG9b",
+      "layout": "vertical",
+      "name": "Full-text Search \u2014 Empty State",
+      "type": "frame",
+      "width": 500,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "children": [
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "\ud83d\udd0d",
+              "fill": "#8888AA",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "id": "9pswg",
+              "name": "icon2",
+              "type": "text"
+            },
+            {
+              "content": "time management",
+              "fill": "#E0E0F0",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "id": "IG4Oy",
+              "name": "input2",
+              "textGrowth": "fixed-width",
+              "type": "text",
+              "width": "fill_container"
+            },
+            {
+              "alignItems": "center",
+              "children": [
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Keyword",
+                      "fill": "#CCCCDD",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "aL4o7",
+                      "name": "kwLabel",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#4C4C6D",
+                  "id": "7jTLP",
+                  "name": "kwActive",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Semantic",
+                      "fill": "#666680",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "Kq87g",
+                      "name": "semLabel",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#33334D",
+                  "id": "cTlcM",
+                  "name": "semInactive",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                }
+              ],
+              "gap": 4,
+              "id": "hgbNF",
+              "name": "Mode Toggle",
+              "type": "frame"
+            }
+          ],
+          "cornerRadius": 8,
+          "fill": "#2A2A3C",
+          "gap": 10,
+          "height": 48,
+          "id": "mNK9x",
+          "name": "Search Bar",
+          "padding": [
+            0,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        },
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "12 results \u2014 148ms",
+              "fill": "#555570",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "id": "ox2wo",
+              "name": "countText",
+              "type": "text"
+            }
+          ],
+          "id": "SAQ8v",
+          "name": "countBar",
+          "padding": [
+            6,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        },
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "content": "How to Manage your Time",
+                  "fill": "#E0E0F0",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600",
+                  "id": "tCIvh",
+                  "name": "r1title",
+                  "type": "text"
+                },
+                {
+                  "content": "...how people can improve their time management skills. They gathered results in this article...",
+                  "fill": "#888899",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "id": "jAqxc",
+                  "lineHeight": 1.4,
+                  "name": "r1snippet",
+                  "textGrowth": "fixed-width",
+                  "type": "text",
+                  "width": "fill_container"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "content": "Essay",
+                          "fill": "#8888AA",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "id": "Peatz",
+                          "name": "r1typeText",
+                          "type": "text"
+                        }
+                      ],
+                      "cornerRadius": 3,
+                      "fill": "#33334D",
+                      "id": "a4ghT",
+                      "name": "r1type",
+                      "padding": [
+                        2,
+                        6
+                      ],
+                      "type": "frame"
+                    },
+                    {
+                      "content": "score: 0.87",
+                      "fill": "#555570",
+                      "fontFamily": "Inter",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "id": "xS0iX",
+                      "name": "r1score",
+                      "type": "text"
+                    }
+                  ],
+                  "gap": 8,
+                  "id": "AP1fQ",
+                  "name": "r1meta",
+                  "type": "frame"
+                }
+              ],
+              "fill": "#2A2A3C",
+              "gap": 4,
+              "id": "g7JoL",
+              "layout": "vertical",
+              "name": "Result Item \u2014 Selected",
+              "padding": [
+                10,
+                16
+              ],
+              "type": "frame",
+              "width": "fill_container"
+            },
+            {
+              "children": [
+                {
+                  "content": "On solo work, self-reflection and decision fatigue",
+                  "fill": "#C0C0D0",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "id": "eSx2r",
+                  "name": "r2title",
+                  "type": "text"
+                },
+                {
+                  "content": "...I organize my time carefully, create recurring activities, block time on my calendar...",
+                  "fill": "#666680",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "id": "MB5C8",
+                  "lineHeight": 1.4,
+                  "name": "r2snippet",
+                  "textGrowth": "fixed-width",
+                  "type": "text",
+                  "width": "fill_container"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "content": "Evergreen",
+                          "fill": "#8888AA",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "id": "lVC0y",
+                          "name": "r2typeText",
+                          "type": "text"
+                        }
+                      ],
+                      "cornerRadius": 3,
+                      "fill": "#33334D",
+                      "id": "DZDtT",
+                      "name": "r2type",
+                      "padding": [
+                        2,
+                        6
+                      ],
+                      "type": "frame"
+                    },
+                    {
+                      "content": "score: 0.75",
+                      "fill": "#555570",
+                      "fontFamily": "Inter",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "id": "q5ohu",
+                      "name": "r2score",
+                      "type": "text"
+                    }
+                  ],
+                  "gap": 8,
+                  "id": "kUzQY",
+                  "name": "r2meta",
+                  "type": "frame"
+                }
+              ],
+              "gap": 4,
+              "id": "wa3Pe",
+              "layout": "vertical",
+              "name": "Result Item",
+              "padding": [
+                10,
+                16
+              ],
+              "type": "frame",
+              "width": "fill_container"
+            },
+            {
+              "children": [
+                {
+                  "content": "Time Management Is About More Than Life Hacks",
+                  "fill": "#C0C0D0",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                  "id": "fDBcr",
+                  "name": "r3title",
+                  "type": "text"
+                },
+                {
+                  "content": "...the results ran counter to popular admonitions of either the virtues or the detriments of multitasking...",
+                  "fill": "#666680",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal",
+                  "id": "9X1rc",
+                  "lineHeight": 1.4,
+                  "name": "r3snippet",
+                  "textGrowth": "fixed-width",
+                  "type": "text",
+                  "width": "fill_container"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "content": "Reading",
+                          "fill": "#8888AA",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "normal",
+                          "id": "ql9Q1",
+                          "name": "r3typeText",
+                          "type": "text"
+                        }
+                      ],
+                      "cornerRadius": 3,
+                      "fill": "#33334D",
+                      "id": "IHIHs",
+                      "name": "r3type",
+                      "padding": [
+                        2,
+                        6
+                      ],
+                      "type": "frame"
+                    },
+                    {
+                      "content": "score: 0.73",
+                      "fill": "#555570",
+                      "fontFamily": "Inter",
+                      "fontSize": 10,
+                      "fontWeight": "normal",
+                      "id": "XQs3c",
+                      "name": "r3score",
+                      "type": "text"
+                    }
+                  ],
+                  "gap": 8,
+                  "id": "gMuVI",
+                  "name": "r3meta",
+                  "type": "frame"
+                }
+              ],
+              "gap": 4,
+              "id": "EATNG",
+              "layout": "vertical",
+              "name": "Result Item",
+              "padding": [
+                10,
+                16
+              ],
+              "type": "frame",
+              "width": "fill_container"
+            }
+          ],
+          "id": "cGRXu",
+          "layout": "vertical",
+          "name": "Results List",
+          "type": "frame",
+          "width": "fill_container"
+        }
+      ],
+      "cornerRadius": 12,
+      "fill": "#1E1E2E",
+      "id": "K1O2x",
+      "layout": "vertical",
+      "name": "Full-text Search \u2014 Results",
+      "type": "frame",
+      "width": 500,
+      "x": 560,
+      "y": 0
+    },
+    {
+      "children": [
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "\ud83d\udd0d",
+              "fill": "#8888AA",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "normal",
+              "id": "nrIc1",
+              "name": "icon3",
+              "type": "text"
+            },
+            {
+              "content": "xyznonexistent",
+              "fill": "#E0E0F0",
+              "fontFamily": "Inter",
+              "fontSize": 15,
+              "fontWeight": "normal",
+              "id": "nrIc2",
+              "name": "input3",
+              "textGrowth": "fixed-width",
+              "type": "text",
+              "width": "fill_container"
+            },
+            {
+              "alignItems": "center",
+              "children": [
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Keyword",
+                      "fill": "#CCCCDD",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "nrIc3",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#4C4C6D",
+                  "id": "nrIc4",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                },
+                {
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "content": "Semantic",
+                      "fill": "#666680",
+                      "fontFamily": "Inter",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "id": "nrIc5",
+                      "type": "text"
+                    }
+                  ],
+                  "cornerRadius": 4,
+                  "fill": "#33334D",
+                  "id": "nrIc6",
+                  "padding": [
+                    4,
+                    8
+                  ],
+                  "type": "frame"
+                }
+              ],
+              "gap": 4,
+              "id": "nrIc7",
+              "name": "Mode Toggle",
+              "type": "frame"
+            }
+          ],
+          "cornerRadius": 8,
+          "fill": "#2A2A3C",
+          "gap": 10,
+          "height": 48,
+          "id": "nrIc8",
+          "name": "Search Bar",
+          "padding": [
+            0,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        },
+        {
+          "alignItems": "center",
+          "children": [
+            {
+              "content": "No results found",
+              "fill": "#888899",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal",
+              "id": "nrIcA",
+              "type": "text"
+            },
+            {
+              "content": "Try different keywords or switch to semantic search",
+              "fill": "#555570",
+              "fontFamily": "Inter",
+              "fontSize": 12,
+              "fontWeight": "normal",
+              "id": "nrIcB",
+              "type": "text"
+            }
+          ],
+          "gap": 8,
+          "id": "nrIc9",
+          "justifyContent": "center",
+          "layout": "vertical",
+          "name": "No Results Body",
+          "padding": [
+            32,
+            16
+          ],
+          "type": "frame",
+          "width": "fill_container"
+        }
+      ],
+      "cornerRadius": 12,
+      "fill": "#1E1E2E",
+      "id": "nrIcZ",
+      "layout": "vertical",
+      "name": "Full-text Search \u2014 No Results",
+      "type": "frame",
+      "width": 500,
+      "x": 1120,
+      "y": 0
     }
   ],
   "themes": {
